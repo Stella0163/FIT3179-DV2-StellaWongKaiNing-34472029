@@ -5,7 +5,7 @@
     "text": "Quarterly Performance of Australia's Chicken Industry",
     "subtitle": [
       "Percentage change from Jun 2024 to Jun 2026",
-      "Horizon bands: 0–6 and 6–12 percentage points"
+      "Vertical scale shows change from Jun 2024 (%); horizon bands: 0–6 and 6–12 percentage points"
     ],
     "fontSize": 24,
     "subtitleFontSize": 14,
@@ -145,13 +145,13 @@
     }
   },
   "spec": {
-    "width": 700,
+    "width": 850,
     "height": 85,
     "encoding": {
       "x": {
         "field": "quarter",
         "type": "ordinal",
-        "title": "Quarter",
+        "title": "null",
         "sort": [
           "Jun-24",
           "Sep-24",
@@ -165,8 +165,9 @@
         ],
         "axis": {
           "labelAngle": 0,
-          "labelFontSize": 13,
-          "titleFontSize": 15
+          "labelFontSize": 14,
+          "titleFontSize": 16,
+          "titlePadding": 12
         }
       },
       "tooltip": [
