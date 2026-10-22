@@ -1,18 +1,17 @@
+
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-
   "title": {
     "text": "Quarterly Performance of Australia's Chicken Industry",
-    "subtitle": "Relative performance of production, slaughter and poultry value from Jun 2024 to Jun 2026",
+    "subtitle": [
+      "Percentage change from Jun 2024 to Jun 2026",
+      "Horizon bands: 0–6 and 6–12 percentage points"
+    ],
     "fontSize": 24,
-    "subtitleFontSize": 15,
+    "subtitleFontSize": 14,
     "anchor": "start",
-    "offset": 12
+    "offset": 18
   },
-
-  "width": 700,
-  "height": 200,
-
   "data": {
     "values": [
       {
@@ -71,7 +70,6 @@
       }
     ]
   },
-
   "transform": [
     {
       "fold": [
@@ -79,68 +77,56 @@
         "slaughtered",
         "gross_value"
       ],
-      "as": [
-        "measure",
-        "value"
-      ]
+      "as": ["measure", "value"]
     },
     {
-      "joinaggregate": [
+      "calculate": "indexof(['Jun-24','Sep-24','Dec-24','Mar-25','Jun-25','Sep-25','Dec-25','Mar-26','Jun-26'], datum.quarter)",
+      "as": "quarter_order"
+    },
+    {
+      "window": [
         {
-          "op": "min",
+          "op": "first_value",
           "field": "value",
-          "as": "min_value"
-        },
-        {
-          "op": "max",
-          "field": "value",
-          "as": "max_value"
+          "as": "baseline"
         }
       ],
-      "groupby": [
-        "measure"
-      ]
+      "sort": [
+        {
+          "field": "quarter_order",
+          "order": "ascending"
+        }
+      ],
+      "groupby": ["measure"],
+      "frame": [null, null]
     },
     {
-      "calculate": "((datum.value - datum.min_value) / (datum.max_value - datum.min_value)) * 100",
-      "as": "index"
+      "calculate": "((datum.value - datum.baseline) / datum.baseline) * 100",
+      "as": "change"
     },
     {
       "calculate": "datum.measure === 'chicken_meat' ? 'Chicken Meat Production' : datum.measure === 'slaughtered' ? 'Chickens Slaughtered' : 'Poultry Gross Value'",
       "as": "measure_label"
+    },
+    {
+      "calculate": "min(max(datum.change, 0), 6)",
+      "as": "positive_band1"
+    },
+    {
+      "calculate": "min(max(datum.change - 6, 0), 6)",
+      "as": "positive_band2"
+    },
+    {
+      "calculate": "min(max(-datum.change, 0), 6)",
+      "as": "negative_band1"
+    },
+    {
+      "calculate": "min(max(-datum.change - 6, 0), 6)",
+      "as": "negative_band2"
     }
   ],
-
-    "mark": {
-    "type": "rect",
-    "stroke": "white",
-    "strokeWidth": 2
-  },
-
-  "encoding": {
-    "x": {
-      "field": "quarter",
-      "type": "ordinal",
-      "title": "Quarter",
-      "sort": [
-        "Jun-24",
-        "Sep-24",
-        "Dec-24",
-        "Mar-25",
-        "Jun-25",
-        "Sep-25",
-        "Dec-25",
-        "Mar-26",
-        "Jun-26"
-      ],
-      "axis": {
-        "labelAngle": 0,
-        "labelFontSize": 14,
-        "titleFontSize": 16
-      }
-    },
-
-    "y": {
+  "facet": {
+    "row": {
       "field": "measure_label",
       "type": "nominal",
       "title": null,
@@ -149,55 +135,162 @@
         "Chickens Slaughtered",
         "Poultry Gross Value"
       ],
-      "axis": {
-        "labelFontSize": 14,
+      "header": {
+        "labelFontSize": 16,
+        "labelFontWeight": "bold",
+        "labelOrient": "top",
+        "labelAnchor": "start",
         "labelPadding": 8
       }
-    },
-
-    "color": {
-      "field": "index",
-      "type": "quantitative",
-      "title": "Relative Level (0–100)",
-      "scale": {
-        "scheme": "blues",
-        "domain": [0, 100]
-      },
-      "legend": {
-        "titleFontSize": 15,
-        "labelFontSize": 13
-      }
-    },
-
-    "tooltip": [
-      {
+    }
+  },
+  "spec": {
+    "width": 700,
+    "height": 85,
+    "encoding": {
+      "x": {
         "field": "quarter",
         "type": "ordinal",
-        "title": "Quarter"
+        "title": "Quarter",
+        "sort": [
+          "Jun-24",
+          "Sep-24",
+          "Dec-24",
+          "Mar-25",
+          "Jun-25",
+          "Sep-25",
+          "Dec-25",
+          "Mar-26",
+          "Jun-26"
+        ],
+        "axis": {
+          "labelAngle": 0,
+          "labelFontSize": 13,
+          "titleFontSize": 15
+        }
+      },
+      "tooltip": [
+        {
+          "field": "quarter",
+          "type": "nominal",
+          "title": "Quarter"
+        },
+        {
+          "field": "measure_label",
+          "type": "nominal",
+          "title": "Indicator"
+        },
+        {
+          "field": "value",
+          "type": "quantitative",
+          "title": "Actual Value",
+          "format": ",.1f"
+        },
+        {
+          "field": "change",
+          "type": "quantitative",
+          "title": "Change from Jun 2024 (%)",
+          "format": "+.2f"
+        }
+      ]
+    },
+    "layer": [
+      {
+        "mark": {
+          "type": "area",
+          "interpolate": "linear",
+          "clip": true,
+          "color": "#A7CBE8"
+        },
+        "encoding": {
+          "y": {
+            "field": "positive_band1",
+            "type": "quantitative",
+            "scale": {
+              "domain": [0, 6]
+            },
+            "axis": null,
+            "stack": null
+          },
+          "y2": {
+            "datum": 0
+          }
+        }
       },
       {
-        "field": "measure_label",
-        "type": "nominal",
-        "title": "Indicator"
+        "mark": {
+          "type": "area",
+          "interpolate": "linear",
+          "clip": true,
+          "color": "#F4B89C"
+        },
+        "encoding": {
+          "y": {
+            "field": "negative_band1",
+            "type": "quantitative",
+            "scale": {
+              "domain": [0, 6]
+            },
+            "axis": null,
+            "stack": null
+          },
+          "y2": {
+            "datum": 0
+          }
+        }
       },
       {
-        "field": "value",
-        "type": "quantitative",
-        "title": "Actual Value",
-        "format": ",.1f"
+        "mark": {
+          "type": "area",
+          "interpolate": "linear",
+          "clip": true,
+          "color": "#1764A5"
+        },
+        "encoding": {
+          "y": {
+            "field": "positive_band2",
+            "type": "quantitative",
+            "scale": {
+              "domain": [0, 6]
+            },
+            "axis": null,
+            "stack": null
+          },
+          "y2": {
+            "datum": 0
+          }
+        }
       },
       {
-        "field": "index",
-        "type": "quantitative",
-        "title": "Relative Level (0–100)",
-        "format": ".1f"
+        "mark": {
+          "type": "area",
+          "interpolate": "linear",
+          "clip": true,
+          "color": "#C65A34"
+        },
+        "encoding": {
+          "y": {
+            "field": "negative_band2",
+            "type": "quantitative",
+            "scale": {
+              "domain": [0, 6]
+            },
+            "axis": null,
+            "stack": null
+          },
+          "y2": {
+            "datum": 0
+          }
+        }
       }
     ]
   },
-
   "config": {
     "view": {
       "stroke": null
+    },
+    "facet": {
+      "spacing": 24
     }
   }
 }
