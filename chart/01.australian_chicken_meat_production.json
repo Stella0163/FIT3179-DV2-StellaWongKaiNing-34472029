@@ -151,7 +151,7 @@
       "x": {
         "field": "quarter",
         "type": "ordinal",
-        "title": "null",
+        "title": "Date",
         "sort": [
           "Jun-24",
           "Sep-24",
