@@ -111,145 +111,89 @@
     }
   ],
 
-  "layer": [
-    {
-      "mark": {
-        "type": "rect",
-        "stroke": "white",
-        "strokeWidth": 2
-      },
+    "mark": {
+    "type": "rect",
+    "stroke": "white",
+    "strokeWidth": 2
+  },
 
-      "encoding": {
-        "x": {
-          "field": "quarter",
-          "type": "ordinal",
-          "title": "Quarter",
-          "sort": [
-            "Jun-24",
-            "Sep-24",
-            "Dec-24",
-            "Mar-25",
-            "Jun-25",
-            "Sep-25",
-            "Dec-25",
-            "Mar-26",
-            "Jun-26"
-          ],
-          "axis": {
-            "labelAngle": 0,
-            "labelFontSize": 14,
-            "titleFontSize": 16
-          }
-        },
-
-        "y": {
-          "field": "measure_label",
-          "type": "nominal",
-          "title": null,
-          "sort": [
-            "Chicken Meat Production",
-            "Chickens Slaughtered",
-            "Poultry Gross Value"
-          ],
-          "axis": {
-            "labelFontSize": 14,
-            "labelPadding": 8
-          }
-        },
-
-        "color": {
-          "field": "index",
-          "type": "quantitative",
-          "title": "Relative Level",
-          "scale": {
-            "scheme": "blues",
-            "domain": [
-              0,
-              100
-            ]
-          },
-          "legend": {
-            "titleFontSize": 15,
-            "labelFontSize": 13
-          }
-        },
-
-        "tooltip": [
-          {
-            "field": "quarter",
-            "type": "ordinal",
-            "title": "Quarter"
-          },
-          {
-            "field": "measure_label",
-            "type": "nominal",
-            "title": "Indicator"
-          },
-          {
-            "field": "value",
-            "type": "quantitative",
-            "title": "Actual Value",
-            "format": ",.1f"
-          },
-          {
-            "field": "index",
-            "type": "quantitative",
-            "title": "Relative Level",
-            "format": ".1f"
-          }
-        ]
+  "encoding": {
+    "x": {
+      "field": "quarter",
+      "type": "ordinal",
+      "title": "Quarter",
+      "sort": [
+        "Jun-24",
+        "Sep-24",
+        "Dec-24",
+        "Mar-25",
+        "Jun-25",
+        "Sep-25",
+        "Dec-25",
+        "Mar-26",
+        "Jun-26"
+      ],
+      "axis": {
+        "labelAngle": 0,
+        "labelFontSize": 14,
+        "titleFontSize": 16
       }
     },
 
-    {
-      "mark": {
-        "type": "text",
-        "fontSize": 13
-      },
-
-      "encoding": {
-        "x": {
-          "field": "quarter",
-          "type": "ordinal",
-          "sort": [
-            "Jun-24",
-            "Sep-24",
-            "Dec-24",
-            "Mar-25",
-            "Jun-25",
-            "Sep-25",
-            "Dec-25",
-            "Mar-26",
-            "Jun-26"
-          ]
-        },
-
-        "y": {
-          "field": "measure_label",
-          "type": "nominal",
-          "sort": [
-            "Chicken Meat Production",
-            "Chickens Slaughtered",
-            "Poultry Gross Value"
-          ]
-        },
-
-        "text": {
-          "field": "index",
-          "type": "quantitative",
-          "format": ".0f"
-        },
-
-        "color": {
-          "condition": {
-            "test": "datum.index > 55",
-            "value": "white"
-          },
-          "value": "black"
-        }
+    "y": {
+      "field": "measure_label",
+      "type": "nominal",
+      "title": null,
+      "sort": [
+        "Chicken Meat Production",
+        "Chickens Slaughtered",
+        "Poultry Gross Value"
+      ],
+      "axis": {
+        "labelFontSize": 14,
+        "labelPadding": 8
       }
-    }
-  ],
+    },
+
+    "color": {
+      "field": "index",
+      "type": "quantitative",
+      "title": "Relative Level (0–100)",
+      "scale": {
+        "scheme": "blues",
+        "domain": [0, 100]
+      },
+      "legend": {
+        "titleFontSize": 15,
+        "labelFontSize": 13
+      }
+    },
+
+    "tooltip": [
+      {
+        "field": "quarter",
+        "type": "ordinal",
+        "title": "Quarter"
+      },
+      {
+        "field": "measure_label",
+        "type": "nominal",
+        "title": "Indicator"
+      },
+      {
+        "field": "value",
+        "type": "quantitative",
+        "title": "Actual Value",
+        "format": ",.1f"
+      },
+      {
+        "field": "index",
+        "type": "quantitative",
+        "title": "Relative Level (0–100)",
+        "format": ".1f"
+      }
+    ]
+  },
 
   "config": {
     "view": {
