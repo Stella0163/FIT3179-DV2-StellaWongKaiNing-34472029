@@ -11,6 +11,23 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
   <style>
+    .data-sources {
+      font-size: 12px;
+      line-height: 1.4;
+      color: #666;
+      margin: 20px 24px;
+    }
+
+    .data-sources p {
+      margin: 2px 0;
+    }
+
+    .data-sources strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
     :root {
       --ink: #1f2a2e;
       --ink-soft: #4a575c;
@@ -474,15 +491,17 @@
   <footer> 14.10.2026 / FIT3179 Data Visualisation: Australia's Poultry Industry</footer>
 
   <p> Stella Wong Kai Ning 34472029</p>
-  <p> Data source:</p>
-  <p> Australian Government. (2025, September 5)</p>
-  <p> Australian Bureau of Statistics. (2026, August 19)</p>
-  <p> Deloitte Access Economics.(2025, December 10)</p>
-  <p> Food Standards Australia New Zealand.(2026, September 25)</p>
-  <p> Food Standards Australia New Zealand.(2022, May 28)</p>
-  <p> OECD & Food and Agriculture Organization of the United Nations.(2025, July 15)</p>
-  <p> Silas. (2026, April 24)</p>
-  <p> Linden, J. (2026, March 20)</p>
+  <div class="data-sources">
+    <strong>Data Sources:</strong>
+    <p>Australian Government. (2025, September 5)</p>
+    <p>Australian Bureau of Statistics. (2026, August 19)</p>
+    <p>Deloitte Access Economics. (2025, December 10)</p>
+    <p>Food Standards Australia New Zealand. (2026, September 25)</p>
+    <p>Food Standards Australia New Zealand. (2022, May 28)</p>
+    <p>OECD &amp; Food and Agriculture Organization of the United Nations. (2025, July 15)</p>
+    <p>Silas. (2026, April 24)</p>
+    <p>Linden, J. (2026, March 20)</p>
+  </div>
 
   <script>
     const embedOptions = { actions: true, renderer: "svg" };
