@@ -149,7 +149,7 @@
     "height": 85,
     "encoding": {
       "x": {
-        "field": "Quarter",
+        "field": "Date",
         "type": "ordinal",
         "sort": [
           "Jun-24",
