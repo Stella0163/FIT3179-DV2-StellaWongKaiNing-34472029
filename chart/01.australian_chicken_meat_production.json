@@ -129,7 +129,7 @@
     "row": {
       "field": "measure_label",
       "type": "nominal",
-      "title": "Date",
+      "title": null,
       "sort": [
         "Chicken Meat Production",
         "Chickens Slaughtered",
@@ -149,7 +149,7 @@
     "height": 85,
     "encoding": {
       "x": {
-        "field": "quarter",
+        "field": "Date",
         "type": "ordinal",
         "sort": [
           "Jun-24",
@@ -171,9 +171,9 @@
       },
       "tooltip": [
         {
-          "field": "quarter",
+          "field": "Date",
           "type": "nominal",
-          "title": "Quarter"
+          "title": "Date"
         },
         {
           "field": "measure_label",
