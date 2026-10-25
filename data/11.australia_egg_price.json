@@ -1,0 +1,17 @@
+{
+  "title": "Eggs Your Way Median Cafe Meal Prices by Australian State Capital",
+  "data_period": "April 2026",
+  "unit": "AUD",
+  "measure": "median cafe menu price for Eggs Your Way",
+  "source_url": "https://thecafeindex.com/item/eggs-your-way",
+  "publication_date_verified": false,
+  "city_data": [
+    { "city": "Sydney", "state": "New South Wales", "state_code": "NSW", "median_price_aud": 14.00 },
+    { "city": "Melbourne", "state": "Victoria", "state_code": "VIC", "median_price_aud": 14.78 },
+    { "city": "Brisbane", "state": "Queensland", "state_code": "QLD", "median_price_aud": 15.00 },
+    { "city": "Adelaide", "state": "South Australia", "state_code": "SA", "median_price_aud": 15.00 },
+    { "city": "Perth", "state": "Western Australia", "state_code": "WA", "median_price_aud": 16.00 },
+    { "city": "Hobart", "state": "Tasmania", "state_code": "TAS", "median_price_aud": 15.50 }
+  ],
+  "note": "City-level cafe meal prices, not state-level retail egg prices. The source displays a data period but no separately verified publication date."
+}
