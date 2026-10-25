@@ -149,8 +149,9 @@
     "height": 85,
     "encoding": {
       "x": {
-        "field": "Quater",
+        "field": "quarter",
         "type": "ordinal",
+        "title": "Quarter",
         "sort": [
           "Jun-24",
           "Sep-24",
@@ -173,7 +174,7 @@
         {
           "field": "Date",
           "type": "nominal",
-          "title": "Date"
+          "title": "quarter"
         },
         {
           "field": "measure_label",
