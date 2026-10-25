@@ -3,23 +3,32 @@
     {
       "state": "New South Wales",
       "state_code": "NSW",
-      "share_of_national_production_percent": 35
+      "share_of_national_production_percent": 30
     },
     {
       "state": "Victoria",
       "state_code": "VIC",
-      "share_of_national_production_percent": 28
+      "share_of_national_production_percent": 19
     },
     {
       "state": "Queensland",
       "state_code": "QLD",
-      "share_of_national_production_percent": 18
+      "share_of_national_production_percent": 35
     },
     {
-      "state": "Other States",
-      "state_code": "OTHER",
-      "share_of_national_production_percent": 19,
-      "note": "South Australia, Western Australia and Tasmania combined"
+      "state": "Western Australia",
+      "state_code": "WA",
+      "share_of_national_production_percent": 8
+    },
+    {
+      "state": "South Australia",
+      "state_code": "SA",
+      "share_of_national_production_percent": 5
+    },
+    {
+      "state": "Tasmania",
+      "state_code": "TAS",
+      "share_of_national_production_percent": 3
     }
   ]
 }

@@ -1,34 +1,36 @@
 {
-  "state_flock_share": [
+  "title": "Distribution of Australia's Egg-Laying Flock by State",
+  "year": "2024",
+  "state_data": [
     {
-      "state_region": "New South Wales / ACT",
+      "state": "New South Wales and ACT",
       "state_code": "NSW_ACT",
-      "share_percent": 36.0
+      "share_of_national_layer_flock_percent": 36.0
     },
     {
-      "state_region": "Queensland",
+      "state": "Queensland",
       "state_code": "QLD",
-      "share_percent": 28.6
+      "share_of_national_layer_flock_percent": 28.6
     },
     {
-      "state_region": "Victoria",
+      "state": "Victoria",
       "state_code": "VIC",
-      "share_percent": 22.3
+      "share_of_national_layer_flock_percent": 22.3
     },
     {
-      "state_region": "Western Australia",
+      "state": "Western Australia",
       "state_code": "WA",
-      "share_percent": 6.3
+      "share_of_national_layer_flock_percent": 6.3
     },
     {
-      "state_region": "South Australia",
+      "state": "South Australia",
       "state_code": "SA",
-      "share_percent": 5.5
+      "share_of_national_layer_flock_percent": 5.5
     },
     {
-      "state_region": "Tasmania",
+      "state": "Tasmania",
       "state_code": "TAS",
-      "share_percent": 1.3
+      "share_of_national_layer_flock_percent": 1.3
     }
   ]
 }
