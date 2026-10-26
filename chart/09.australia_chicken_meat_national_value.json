@@ -11,7 +11,7 @@
   },
 
   "data": {
-    "url": "data/04.aus_poultry_abares_2026.json",
+    "url": "data/09.agrifutures_chicken_meat_national_value_volume.json",
         "format": {
         "type": "json"
     }
