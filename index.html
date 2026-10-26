@@ -11,255 +11,214 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
   <style>
-    .data-sources {
-      font-size: 12px;
-      line-height: 1.4;
-      color: #666;
-      margin: 20px 24px;
-    }
-
-    .data-sources p {
-      margin: 2px 0;
-    }
-
-    .data-sources strong {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
-
     :root {
-      --ink: #1f2a2e;
-      --ink-soft: #4a575c;
-      --page: #f4f6f3;
+      --ink: #14303a;
+      --ink-soft: #4b6168;
+      --page: #eef3f2;
       --card: #ffffff;
-      --line: #d9dfdb;
-      --measure: 68ch;
+      --line: #d3dedc;
+      --yolk: #f2b01e;
+      --yolk-deep: #9a6a00;
+      --teal: #1f6f78;
+      --measure: 64ch;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 18px;
-      line-height: 1.7;
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.65;
       background: var(--page);
       color: var(--ink);
     }
 
-    :focus-visible {
-      outline: 3px solid var(--yolk);
-      outline-offset: 3px;
-    }
+    :focus-visible { outline: 3px solid var(--yolk); outline-offset: 3px; }
 
+    /* ---------- Hero ---------- */
     .hero {
-      padding: 88px 24px 72px;
-      background: var(--ink);
-      color: #fff;
+      background: #dfe6e5;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+      padding: 96px 24px 80px;
     }
-
-    .hero-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
+    .hero-inner { max-width: 1160px; margin: 0 auto; }
     .hero h1 {
-      margin: 0 0 20px;
-      font-size: clamp(2.4rem, 6vw, 4rem);
-      line-height: 1.1;
-      letter-spacing: -0.5px;
-    }
-
-    .hero p {
-      margin: 0;
-      max-width: var(--measure);
-      font-size: 1.15rem;
-      color: #d5dcd8;
-    }
-
-    .hero-rule {
-      width: 72px;
-      height: 6px;
-      background: var(--yolk);
-      border-radius: 3px;
-      margin-bottom: 28px;
-    }
-
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    .story-section {
-      padding: 64px 0 24px;
-    }
-
-    .story-section+.story-section {
-      border-top: 1px solid var(--line);
-    }
-
-    .story-label {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--ink-soft);
-      margin: 0 0 6px;
-    }
-
-    .story-section h2 {
-      margin: 0 0 14px;
-      font-size: clamp(1.7rem, 3.6vw, 2.3rem);
-      line-height: 1.2;
-      max-width: 100%;
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(2.4rem, 6vw, 4.4rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 24px;
+      max-width: 17ch;
       text-wrap: balance;
     }
-
-    .story-intro {
-      max-width: var(--measure);
+    .hero p {
+      margin: 0 0 32px;
+      max-width: 54ch;
+      font-size: 1.2rem;
       color: var(--ink-soft);
-      margin: 0 0 28px;
     }
+    .hero-link {
+      display: inline-block;
+      padding: 12px 22px;
+      background: var(--yolk);
+      color: #14303a;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 999px;
+    }
+    .hero-link:hover { background: #ffc43d; }
+
+    /* ---------- Layout with side rail ---------- */
+    .layout {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 48px;
+    }
+
+    .rail {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      padding: 40px 0;
+      max-height: 100vh;
+      overflow-y: auto;
+    }
+    .rail-title {
+      font-weight: 700;
+      margin: 0 0 12px;
+      font-size: 0.95rem;
+    }
+    .rail ol { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--line); }
+    .rail a {
+      display: block;
+      padding: 6px 0 6px 14px;
+      margin-left: -2px;
+      border-left: 2px solid transparent;
+      font-size: 0.92rem;
+      line-height: 1.35;
+      color: var(--ink-soft);
+      text-decoration: none;
+    }
+    .rail a:hover { color: var(--ink); }
+    .rail a.active {
+      color: var(--ink);
+      font-weight: 700;
+      border-left-color: var(--yolk);
+    }
+
+    /* ---------- Sections ---------- */
+    .story-section { padding: 64px 0 24px; }
+    .story-section:first-child { padding-top: 56px; }
+    .story-section + .story-section { border-top: 1px solid var(--line); }
+
+    .story-head { max-width: var(--measure); margin-bottom: 28px; }
+    .story-label {
+      display: inline-block;
+      margin: 0 0 12px;
+      padding: 3px 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--yolk-deep);
+      border: 1.5px solid var(--yolk);
+      border-radius: 999px;
+    }
+    .story-section h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin: 0 0 14px;
+      text-wrap: balance;
+    }
+    .story-intro { margin: 0; color: var(--ink-soft); }
 
     .chart-card {
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 24px;
+      border-radius: 12px;
+      padding: 28px;
       overflow-x: auto;
+      box-shadow: 0 1px 0 rgba(20, 48, 58, 0.04);
     }
+    .chart { display: flex; min-height: 160px; }
+    .chart > * { margin: 0 auto; }
 
-    .chart {
-      display: flex;
-      justify-content: center;
-      min-height: 160px;
-    }
-
-    .how-to-read {
-      margin: 14px 0 0;
-      font-size: 1rem;
-      color: var(--ink-soft);
-      max-width: var(--measure);
-    }
-
-    .how-to-read strong {
-      color: var(--ink);
-    }
-
-    .explanation {
-      margin: 24px 0 0;
-      padding: 4px 0 4px 20px;
-      border-left: 5px solid var(--yolk);
-      max-width: var(--measure);
-    }
-
-    .explanation h3 {
-      margin: 0 0 6px;
-      font-size: 1.2rem;
-    }
-
-    .explanation p {
-      margin: 0;
-      color: var(--ink-soft);
-    }
-
-    .multi-explanation {
-      margin: 24px 0 0;
+    /* notes under each chart */
+    .notes {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 32px;
-      max-width: 920px;
+      gap: 20px 40px;
+      margin-top: 24px;
     }
-
-    .multi-explanation .explanation {
-      margin: 0;
+    .how-to-read, .explanation { margin: 0; font-size: 1rem; color: var(--ink-soft); }
+    .how-to-read strong, .explanation h3 { color: var(--ink); }
+    .how-to-read {
+      padding: 14px 16px;
+      background: rgba(31, 111, 120, 0.09);
+      border-radius: 8px;
     }
+    .how-to-read strong { display: block; margin-bottom: 2px; }
+    .explanation { padding-left: 18px; border-left: 4px solid var(--yolk); }
+    .explanation h3 { margin: 0 0 4px; font-size: 1.1rem; }
+    .explanation p { margin: 0; }
+    .explanation + .explanation { margin-top: 14px; }
 
-    .transition {
-      padding: 56px 0 0;
-      max-width: 34ch;
-      font-size: 1.5rem;
-      font-weight: 600;
-      line-height: 1.35;
-    }
-
-    .conclusion {
-      margin-top: 50px;
-      padding: 30px 24px 64px;
-      background: var(--ink);
-      color: #fff;
-    }
-
-    .conclusion-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
+    /* ---------- Conclusion ---------- */
+    .conclusion { margin-top: 56px; background: #dfe6e5; border-top: 1px solid var(--line); color: var(--ink); padding: 64px 24px; }
+    .conclusion-inner { max-width: 1160px; margin: 0 auto; }
     .conclusion h2 {
-      margin: 0 0 14px;
-      font-size: clamp(1.7rem, 3.6vw, 2.3rem);
-      line-height: 1.2;
-      max-width: 26ch;
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+      line-height: 1.15;
+      margin: 0 0 16px;
+      max-width: 22ch;
     }
+    .conclusion p { margin: 0; max-width: var(--measure); color: var(--ink-soft); }
 
-    .conclusion p {
-      margin: 0;
-      max-width: var(--measure);
-      color: #d5dcd8;
+    /* ---------- Footer ---------- */
+    footer { max-width: 1160px; margin: 0 auto; padding: 40px 24px 56px; color: var(--ink-soft); font-size: 0.92rem; }
+    footer .meta { margin: 0 0 24px; }
+    .data-sources { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.85rem; line-height: 1.5; }
+    .data-sources strong { display: block; margin-bottom: 6px; color: var(--ink); }
+    .data-sources ul { margin: 0; padding-left: 18px; columns: 2; column-gap: 40px; }
+
+    .error { color: #8a1c1c; font-size: 1rem; padding: 12px; max-width: var(--measure); }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; gap: 0; }
+      .rail {
+        position: sticky; top: 0; z-index: 5;
+        padding: 8px 0; margin: 0 -24px;
+        background: var(--page);
+        border-bottom: 1px solid var(--line);
+        max-height: none; overflow: visible;
+      }
+      .rail-title { display: none; }
+      .rail ol { display: flex; gap: 4px; overflow-x: auto; border: 0; padding: 0 24px; }
+      .rail a { white-space: nowrap; border: 0; margin: 0; padding: 6px 12px; border-radius: 999px; }
+      .rail a.active { background: var(--yolk); color: #14303a; }
     }
-
-    .error {
-      color: #8a1c1c;
-      font-size: 1rem;
-      padding: 12px;
-      max-width: var(--measure);
-    }
-
-    footer {
-      text-align: center;
-      padding: 24px;
-      color: var(--ink-soft);
-      font-size: 1rem;
-    }
-
     @media (max-width: 700px) {
-      body {
-        font-size: 17px;
-      }
-
-      .hero {
-        padding: 60px 20px 52px;
-      }
-
-      main {
-        padding: 0 16px;
-      }
-
-      .story-section {
-        padding: 60px 0 16px;
-      }
-
-      .chart-card {
-        padding: 12px;
-      }
-
-      .multi-explanation {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
+      body { font-size: 16px; }
+      .hero { padding: 64px 20px 56px; }
+      .layout { padding: 0 16px; }
+      .rail { margin: 0 -16px; }
+      .rail ol { padding: 0 16px; }
+      .chart-card { padding: 12px; }
+      .notes { grid-template-columns: 1fr; gap: 14px; }
+      .data-sources ul { columns: 1; }
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   </style>
 </head>
 
@@ -267,241 +226,215 @@
 
   <header class="hero">
     <div class="hero-inner">
-      <div class="hero-rule" aria-hidden="true"></div>
       <h1>Australia's poultry industry: from growth to geography</h1>
       <p>
-        This visual story explores how Australia's chicken meat and egg</p>
-      <p>industries have changed over time, where production is concentrated,</p>
-      <p>and how the industry's economic significance is developing.</p>
+        This visual story explores how Australia's chicken meat and egg industries have changed over time,
+        where production is concentrated, and how the industry's economic significance is developing.
       </p>
+      <a class="hero-link" href="#h-long-term">Start the story</a>
     </div>
   </header>
 
-  <main>
+  <div class="layout">
 
-    <section class="story-section" aria-labelledby="h-long-term">
-      <p class="story-label">Part 1: Long-term growth</p>
-      <h2 id="h-long-term">Chicken meat production has expanded strongly over time</h2>
-      <p class="story-intro">
-        Production has generally increased over the decades, although some years show temporary slowdowns or declines.
-      </p>
-      <div class="chart-card">
-        <div class="chart" id="chart08" role="img" aria-label="Chart of long-term chicken meat production in Australia">
+    <nav class="rail" aria-label="Story sections">
+      <p class="rail-title">In this story</p>
+      <ol>
+        <li><a href="#h-long-term">1. Long-term growth</a></li>
+        <li><a href="#h-recent">2. Recent production</a></li>
+        <li><a href="#h-value">3. Volume and value</a></li>
+        <li><a href="#h-geography">4. Geography</a></li>
+        <li><a href="#h-eggs">5. Egg production</a></li>
+        <li><a href="#h-flock">6. Laying flock</a></li>
+        <li><a href="#h-economic-value">7. Industry value</a></li>
+        <li><a href="#h-outlook">8. Future outlook</a></li>
+      </ol>
+    </nav>
+
+    <main>
+
+      <section class="story-section" aria-labelledby="h-long-term">
+        <div class="story-head">
+          <p class="story-label">Part 1: Long-term growth</p>
+          <h2 id="h-long-term">Chicken meat production has expanded strongly over time</h2>
+          <p class="story-intro">Production has generally increased over the decades, although some years show temporary slowdowns or declines.</p>
         </div>
-      </div>
-      <p class="how-to-read"><strong>How to use this chart:
-        </strong> hover over the chart to read exact values for each year.</p>
-      <div class="explanation">
-        <h3>What this shows</h3>
-        <p>
-          The chart highlights both overall production growth and year-to-year variation, helping separate the
-          long-term direction from short-term fluctuations.
-        </p>
-      </div>
-    </section>
-
-    <section class="story-section" aria-labelledby="h-recent">
-      <p class="story-label">Part 2: Recent production</p>
-      <h2 id="h-recent">Recent production remains high</h2>
-      <p class="story-intro">
-        Recent quarterly data give a closer look at chicken meat
-        output, slaughter numbers and industry value.
-      </p>
-      <div class="chart-card">
-        <div class="chart" id="chart01" role="img"
-          aria-label="Chart of recent quarterly chicken meat production in Australia"></div>
-      </div>
-      <p class="how-to-read">
-        <strong>How to use this chart:</strong>
-              Each panel shows percentage change relative to June 2024.
-              Blue indicates growth and orange indicates decline.
-              Darker shades represent changes beyond the first
-              6 percentage points. Hover over the areas to view
-              actual values and percentage changes.
-            </p>
-            
-      <div class="explanation">
-        <h3>Recent movement</h3>
-        <p>
-          This chart focuses on shorter-term changes, showing whether recent production continues the broader
-          long-term growth story.
-        </p>
-      </div>
-    </section>
-
-    <section class="story-section" aria-labelledby="h-value">
-      <p class="story-label">Part 3: Growth in volume and value</p>
-      <h2 id="h-value">Industry growth is visible in both production and economic value</h2>
-      <p class="story-intro">
-        Physical output and monetary value capture two different dimensions of industry growth.
-      </p>
-      <div class="chart-card">
-        <div class="chart" id="chart09" role="img"
-          aria-label="Chart comparing chicken meat production volume and gross production value"></div>
-      </div>
-      <p class="how-to-read"><strong>How to use this chart:</strong> hover over each bar to compare values between the
-        two reported periods.</p>
-      <div class="multi-explanation">
-        <div class="explanation">
-          <h3>Production volume</h3>
-          <p>Compares the amount of chicken meat produced between the two reported periods.</p>
+        <div class="chart-card">
+          <div class="chart" id="chart08" role="img" aria-label="Chart of long-term chicken meat production in Australia"></div>
         </div>
-        <div class="explanation">
-          <h3>Gross production value</h3>
-          <p>Shows how the dollar value of chicken production changed over the same period.</p>
+        <div class="notes">
+          <p class="how-to-read"><strong>How to use this chart</strong>Hover over the chart to read exact values for each year.</p>
+          <div class="explanation">
+            <h3>What this shows</h3>
+            <p>The chart highlights both overall production growth and year-to-year variation, helping separate the long-term direction from short-term fluctuations.</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="story-section" aria-labelledby="h-geography">
-      <p class="story-label">Part 4: Geography</p>
-      <h2 id="h-geography">Chicken production is concentrated in major producing states</h2>
-      <p class="story-intro">
-        State-level data reveal where a large share of Australia's chicken meat production is concentrated.
-      </p>
-      <div class="chart-card">
-        <div class="chart" id="chart10" role="img" aria-label="Chart of chicken meat production by Australian state">
+      <section class="story-section" aria-labelledby="h-recent">
+        <div class="story-head">
+          <p class="story-label">Part 2: Recent production</p>
+          <h2 id="h-recent">Recent production remains high</h2>
+          <p class="story-intro">Recent quarterly data give a closer look at chicken meat output, slaughter numbers and industry value.</p>
         </div>
-      </div>
-      <p class="how-to-read"><strong>How to use this chart:</strong> hover over a state to see its production share.</p>
-      <div class="explanation">
-        <h3>State distribution</h3>
-        <p>
-          New South Wales, Victoria and Queensland are reported individually, while the remaining states are grouped
-          together in the source data.
-        </p>
-      </div>
-    </section>
-
-    <section class="story-section" aria-labelledby="h-eggs">
-      <p class="story-label">Part 5: Egg production</p>
-      <h2 id="h-eggs">Egg production is concentrated across several major states</h2>
-      <p class="story-intro">
-        Comparing state shares shows how national egg production is distributed across Australia's major producing
-        regions.
-      </p>
-      <div class="chart-card">
-        <div class="chart" id="chart02" role="img"
-          aria-label="Charts of each state's share of Australian egg production"></div>
-      </div>
-      <p class="how-to-read"><strong>How to use these charts:</strong> hover over a slice or bar to see the exact
-        percentage for that state.</p>
-      <div class="multi-explanation">
-        <div class="explanation">
-          <h3>Overall distribution</h3>
-          <p>
-            The first chart shows how national egg production is divided between the main producing states and the
-            combined remainder.
-          </p>
+        <div class="chart-card">
+          <div class="chart" id="chart01" role="img" aria-label="Chart of recent quarterly chicken meat production in Australia"></div>
         </div>
-        <div class="explanation">
-          <h3>Exact comparison</h3>
-          <p>The bar chart makes the percentage differences easier to compare precisely across states.</p>
+        <div class="notes">
+          <p class="how-to-read"><strong>How to use this chart</strong>Each panel shows percentage change relative to June 2024. Blue indicates growth and orange indicates decline. Darker shades represent changes beyond the first 6 percentage points. Hover over the areas to view actual values and percentage changes.</p>
+          <div class="explanation">
+            <h3>Recent movement</h3>
+            <p>This chart focuses on shorter-term changes, showing whether recent production continues the broader long-term growth story.</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="story-section" aria-labelledby="h-flock">
-      <p class="story-label">Part 6: Laying flock</p>
-      <h2 id="h-flock">The laying flock shows where egg production capacity is located</h2>
-      <p class="story-intro">
-        The distribution of laying hens shows where the productive capacity of Australia's egg industry sits.
-      </p>
-      <div class="chart-card">
-        <div class="chart" id="chart05" role="img"
-          aria-label="Chart of each state's share of the national laying flock"></div>
-      </div>
-      <p class="how-to-read"><strong>How to use this chart:</strong> hover over a state to see its share of the national
-        laying flock.</p>
-      <div class="explanation">
-        <h3>Different measure, different story</h3>
-        <p>
-          This chart shows each state's share of the national laying flock, so it should not be read as direct egg
-          output.
-        </p>
-      </div>
-    </section>
-
-    <section class="story-section" aria-labelledby="h-economic-value">
-
-      <p class="story-label">Part 7: Industry value</p>
-
-      <h2 id="h-economic-value">
-        Poultry and egg production make a substantial economic contribution
-      </h2>
-
-      <p class="story-intro">
-        Production value provides another perspective on the scale of Australia's poultry industry,
-        comparing the economic value generated by poultry slaughtering and egg production.
-      </p>
-
-      <div class="chart-card">
-        <div class="chart" id="chart03" role="img"
-          aria-label="Chart comparing the production value of poultry slaughtering and egg production in Australia">
+      <section class="story-section" aria-labelledby="h-value">
+        <div class="story-head">
+          <p class="story-label">Part 3: Growth in volume and value</p>
+          <h2 id="h-value">Industry growth is visible in both production and economic value</h2>
+          <p class="story-intro">Physical output and monetary value capture two different dimensions of industry growth.</p>
         </div>
-      </div>
+        <div class="chart-card">
+          <div class="chart" id="chart09" role="img" aria-label="Chart comparing chicken meat production volume and gross production value"></div>
+        </div>
+        <div class="notes">
+          <p class="how-to-read"><strong>How to use this chart</strong>Hover over each bar to compare values between the two reported periods.</p>
+          <div>
+            <div class="explanation">
+              <h3>Production volume</h3>
+              <p>Compares the amount of chicken meat produced between the two reported periods.</p>
+            </div>
+            <div class="explanation">
+              <h3>Gross production value</h3>
+              <p>Shows how the dollar value of chicken production changed over the same period.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <p class="how-to-read">
-        <strong>How to use this chart:</strong>
-        hover over each point to see the production value and financial year.
-      </p>
+      <section class="story-section" aria-labelledby="h-geography">
+        <div class="story-head">
+          <p class="story-label">Part 4: Geography</p>
+          <h2 id="h-geography">Chicken production is concentrated in major producing states</h2>
+          <p class="story-intro">State-level data reveal where a large share of Australia's chicken meat production is concentrated.</p>
+        </div>
+        <div class="chart-card">
+          <div class="chart" id="chart10" role="img" aria-label="Chart of chicken meat production by Australian state"></div>
+        </div>
+        <div class="notes">
+          <p class="how-to-read"><strong>How to use this chart</strong>Hover over a state to see its production share.</p>
+          <div class="explanation">
+            <h3>State distribution</h3>
+            <p>New South Wales, Victoria and Queensland are reported individually, while the remaining states are grouped together in the source data.</p>
+          </div>
+        </div>
+      </section>
 
-      <div class="explanation">
-        <h3>Economic scale</h3>
+      <section class="story-section" aria-labelledby="h-eggs">
+        <div class="story-head">
+          <p class="story-label">Part 5: Egg production</p>
+          <h2 id="h-eggs">Egg production is concentrated across several major states</h2>
+          <p class="story-intro">Comparing state shares shows how national egg production is distributed across Australia's major producing regions.</p>
+        </div>
+        <div class="chart-card">
+          <div class="chart" id="chart02" role="img" aria-label="Charts of each state's share of Australian egg production"></div>
+        </div>
+        <div class="notes">
+          <p class="how-to-read"><strong>How to use these charts</strong>Hover over a slice or bar to see the exact percentage for that state.</p>
+          <div>
+            <div class="explanation">
+              <h3>Overall distribution</h3>
+              <p>The first chart shows how national egg production is divided between the main producing states and the combined remainder.</p>
+            </div>
+            <div class="explanation">
+              <h3>Exact comparison</h3>
+              <p>The bar chart makes the percentage differences easier to compare precisely across states.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <p>
-          Poultry slaughtering has a higher production value than egg production,
-          showing the relative economic scale of the two parts of Australia's poultry industry.
-        </p>
-      </div>
+      <section class="story-section" aria-labelledby="h-flock">
+        <div class="story-head">
+          <p class="story-label">Part 6: Laying flock</p>
+          <h2 id="h-flock">The laying flock shows where egg production capacity is located</h2>
+          <p class="story-intro">The distribution of laying hens shows where the productive capacity of Australia's egg industry sits.</p>
+        </div>
+        <div class="chart-card">
+          <div class="chart" id="chart05" role="img" aria-label="Chart of each state's share of the national laying flock"></div>
+        </div>
+        <div class="notes">
+          <p class="how-to-read"><strong>How to use this chart</strong>Hover over a state to see its share of the national laying flock.</p>
+          <div class="explanation">
+            <h3>Different measure, different story</h3>
+            <p>This chart shows each state's share of the national laying flock, so it should not be read as direct egg output.</p>
+          </div>
+        </div>
+      </section>
 
-    </section>
+      <section class="story-section" aria-labelledby="h-economic-value">
+        <div class="story-head">
+          <p class="story-label">Part 7: Industry value</p>
+          <h2 id="h-economic-value">Poultry and egg production make a substantial economic contribution</h2>
+          <p class="story-intro">Production value provides another perspective on the scale of Australia's poultry industry, comparing the economic value generated by poultry slaughtering and egg production.</p>
+        </div>
+        <div class="chart-card">
+          <div class="chart" id="chart03" role="img" aria-label="Chart comparing the production value of poultry slaughtering and egg production in Australia"></div>
+        </div>
+        <div class="notes">
+          <p class="how-to-read"><strong>How to use this chart</strong>Hover over each point to see the production value and financial year.</p>
+          <div class="explanation">
+            <h3>Economic scale</h3>
+            <p>Poultry slaughtering has a higher production value than egg production, showing the relative economic scale of the two parts of Australia's poultry industry.</p>
+          </div>
+        </div>
+      </section>
 
-    <section class="story-section" aria-labelledby="h-outlook">
-      <p class="story-label">Part 8: Future outlook</p>
-      <h2 id="h-outlook">Forecasts point to continued expansion</h2>
-      <p class="story-intro">
-        Historical growth explains how the industry reached its current position. Forecasts show where production and
-        exports may move next.
-      </p>
-      <div class="chart-card">
-        <div class="chart" id="chart04" role="img"
-          aria-label="Chart of forecast Australian poultry production and exports"></div>
-      </div>
-      <p class="how-to-read"><strong>How to use this chart:</strong> hover over a forecast value to see the exact figure
-        for that year.</p>
-      <div class="explanation">
-        <h3>Looking forward</h3>
-        <p>Forecast values extend the story beyond historical production and show the industry's expected direction.</p>
-      </div>
-    </section>
+      <section class="story-section" aria-labelledby="h-outlook">
+        <div class="story-head">
+          <p class="story-label">Part 8: Future outlook</p>
+          <h2 id="h-outlook">Forecasts point to continued expansion</h2>
+          <p class="story-intro">Historical growth explains how the industry reached its current position. Forecasts show where production and exports may move next.</p>
+        </div>
+        <div class="chart-card">
+          <div class="chart" id="chart04" role="img" aria-label="Chart of forecast Australian poultry production and exports"></div>
+        </div>
+        <div class="notes">
+          <p class="how-to-read"><strong>How to use this chart</strong>Hover over a forecast value to see the exact figure for that year.</p>
+          <div class="explanation">
+            <h3>Looking forward</h3>
+            <p>Forecast values extend the story beyond historical production and show the industry's expected direction.</p>
+          </div>
+        </div>
+      </section>
 
-  </main>
+    </main>
+  </div>
 
   <section class="conclusion">
     <div class="conclusion-inner">
       <h2>A poultry industry shaped by long-term growth</h2>
-      <p>
-        Together, these visualisations show sustained growth in chicken meat production, strong geographic concentration
-        in both chicken and egg production, and continuing economic importance across Australia's poultry industry.
-      </p>
+      <p>Together, these visualisations show sustained growth in chicken meat production, strong geographic concentration in both chicken and egg production, and continuing economic importance across Australia's poultry industry.</p>
     </div>
   </section>
 
-  <footer> 14.10.2026 / FIT3179 Data Visualisation: Australia's Poultry Industry</footer>
-
-  <p> Stella Wong Kai Ning 34472029</p>
-  <div class="data-sources">
-    <strong>Data Sources:</strong>
-    <p>Australian Government. (2025, September 5)</p>
-    <p>Australian Bureau of Statistics. (2026, August 19)</p>
-    <p>Deloitte Access Economics. (2025, December 10)</p>
-    <p>Food Standards Australia New Zealand. (2026, September 25)</p>
-    <p>Food Standards Australia New Zealand. (2022, May 28)</p>
-    <p>OECD &amp; Food and Agriculture Organization of the United Nations. (2025, July 15)</p>
-    <p>Silas. (2026, April 24)</p>
-    <p>Linden, J. (2026, March 20)</p>
-  </div>
+  <footer>
+    <p class="meta">14.10.2026 / FIT3179 Data Visualisation: Australia's Poultry Industry<br>Stella Wong Kai Ning 34472029</p>
+    <div class="data-sources">
+      <strong>Data sources</strong>
+      <ul>
+        <li>Australian Government. (2025, September 5)</li>
+        <li>Australian Bureau of Statistics. (2026, August 19)</li>
+        <li>Deloitte Access Economics. (2025, December 10)</li>
+        <li>Food Standards Australia New Zealand. (2026, September 25)</li>
+        <li>Food Standards Australia New Zealand. (2022, May 28)</li>
+        <li>OECD &amp; Food and Agriculture Organization of the United Nations. (2025, July 15)</li>
+        <li>Silas. (2026, April 24)</li>
+        <li>Linden, J. (2026, March 20)</li>
+      </ul>
+    </div>
+  </footer>
 
   <script>
     const embedOptions = { actions: true, renderer: "svg" };
@@ -528,6 +461,19 @@
         }
       });
     });
+
+    const links = [...document.querySelectorAll(".rail a")];
+    const byId = Object.fromEntries(links.map(a => [a.getAttribute("href").slice(1), a]));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(a => a.classList.remove("active"));
+          const link = byId[entry.target.getAttribute("aria-labelledby")];
+          if (link) link.classList.add("active");
+        }
+      });
+    }, { rootMargin: "-30% 0px -60% 0px" });
+    document.querySelectorAll(".story-section").forEach(s => observer.observe(s));
   </script>
 </body>
 
