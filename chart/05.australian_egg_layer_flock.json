@@ -2,135 +2,159 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 
   "title": {
-    "text": "Share of Australia's National Laying Flock by State, 2025",
-    "subtitle": "NSW includes ACT; state percentages represent share of the national laying flock",
-    "fontSize": 18,
-    "subtitleFontSize": 11,
-    "anchor": "start"
+    "text": "Distribution of Australia's National Laying Flock, 2025",
+    "subtitle": "Graduated symbols represent each state's share of Australia's egg-laying hens",
+    "fontSize": 20,
+    "subtitleFontSize": 12,
+    "anchor": "start",
+    "offset": 15
   },
 
-  "width": 700,
-  "height": 450,
+  "width": 780,
+  "height": 500,
 
   "projection": {
     "type": "mercator",
-    "center": [120, -28],
-    "scale": 620
+    "center": [134, -28],
+    "scale": 650
   },
 
-  "data": {
-    "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson",
-    "format": {
-      "type": "json",
-      "property": "features"
-    }
-  },
-
-  "transform": [
+  "layer": [
     {
-      "calculate": "datum.properties.STATE_NAME",
-      "as": "state"
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+
+      "mark": {
+        "type": "geoshape",
+        "fill": "#F0F2F4",
+        "stroke": "#FFFFFF",
+        "strokeWidth": 1.5
+      }
     },
 
     {
-      "lookup": "state",
-      "from": {
-        "data": {
-          "values": [
-            {
-              "state": "New South Wales",
-              "state_code": "NSW/ACT",
-              "share_percent": 36.0
-            },
-            {
-              "state": "Queensland",
-              "state_code": "QLD",
-              "share_percent": 28.6
-            },
-            {
-              "state": "Victoria",
-              "state_code": "VIC",
-              "share_percent": 22.3
-            },
-            {
-              "state": "Western Australia",
-              "state_code": "WA",
-              "share_percent": 6.3
-            },
-            {
-              "state": "South Australia",
-              "state_code": "SA",
-              "share_percent": 5.5
-            },
-            {
-              "state": "Tasmania",
-              "state_code": "TAS",
-              "share_percent": 1.3
-            }
-          ]
+      "data": {
+        "url": "../data/05.fsanz_australia_egg_layer_flock_2025.json",
+        "format": {
+          "type": "json",
+          "property": "state_data"
+        }
+      },
+
+      "transform": [
+        {
+          "calculate": "datum.share_of_national_layer_flock_percent",
+          "as": "share_percent"
         },
 
-        "key": "state",
+        {
+          "calculate": "datum.state_code === 'NSW_ACT' ? 147 : datum.state_code === 'QLD' ? 145 : datum.state_code === 'VIC' ? 144.5 : datum.state_code === 'WA' ? 121 : datum.state_code === 'SA' ? 135 : 147",
+          "as": "longitude"
+        },
 
-        "fields": [
-          "state_code",
-          "share_percent"
+        {
+          "calculate": "datum.state_code === 'NSW_ACT' ? -32 : datum.state_code === 'QLD' ? -22 : datum.state_code === 'VIC' ? -37 : datum.state_code === 'WA' ? -26 : datum.state_code === 'SA' ? -30 : -42",
+          "as": "latitude"
+        },
+
+        {
+          "calculate": "datum.share_percent <= 10 ? '0–10%' : datum.share_percent <= 25 ? '>10–25%' : datum.share_percent <= 35 ? '>25–35%' : '>35%'",
+          "as": "share_range"
+        }
+      ],
+
+      "mark": {
+        "type": "circle",
+        "color": "#2878B5",
+        "opacity": 0.8,
+        "stroke": "#FFFFFF",
+        "strokeWidth": 2,
+        "cursor": "pointer"
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+
+        "size": {
+          "field": "share_range",
+          "type": "ordinal",
+          "sort": [
+            "0–10%",
+            ">10–25%",
+            ">25–35%",
+            ">35%"
+          ],
+          "scale": {
+            "domain": [
+              "0–10%",
+              ">10–25%",
+              ">25–35%",
+              ">35%"
+            ],
+            "range": [
+              250,
+              700,
+              1300,
+              2000
+            ]
+          },
+          "legend": {
+            "title": "National Laying Flock Share",
+            "orient": "right",
+            "titleFontSize": 13,
+            "labelFontSize": 12,
+            "symbolFillColor": "#2878B5",
+            "symbolStrokeColor": "#FFFFFF"
+          }
+        },
+
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State"
+          },
+
+          {
+            "field": "share_percent",
+            "type": "quantitative",
+            "title": "National Laying Flock Share (%)",
+            "format": ".1f"
+          },
+
+          {
+            "field": "share_range",
+            "type": "nominal",
+            "title": "Share Category"
+          }
         ]
       }
     }
   ],
 
-  "mark": {
-    "type": "geoshape",
-    "stroke": "white",
-    "strokeWidth": 1.5
-  },
-
-  "encoding": {
-    "color": {
-      "condition": {
-        "test": "datum.share_percent != null",
-        "field": "share_percent",
-        "type": "quantitative",
-        "title": "National Laying Flock Share (%)",
-        "scale": {
-          "scheme": "blues",
-          "domain": [0, 36]
-        }
-      },
-      "value": "#e5e5e5"
-    },
-
-    "tooltip": [
-      {
-        "field": "state",
-        "type": "nominal",
-        "title": "State"
-      },
-
-      {
-        "field": "state_code",
-        "type": "nominal",
-        "title": "Region"
-      },
-
-      {
-        "field": "share_percent",
-        "type": "quantitative",
-        "title": "National Flock Share",
-        "format": ".1f"
-      }
-    ]
-  },
-
   "config": {
+    "background": "white",
+
     "view": {
       "stroke": null
     },
 
     "legend": {
-      "titleFontSize": 11,
-      "labelFontSize": 10
+      "padding": 15,
+      "offset": 20
     }
   }
 }
