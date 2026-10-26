@@ -15,7 +15,6 @@
     "large": "more than 50000 laying hens"
   },
   "state_data": [
-    {"state": "Australian Capital Territory", "state_code": "ACT", "small_farms": 3, "medium_farms": 1, "large_farms": 0, "total_farms": 4},
     {"state": "New South Wales", "state_code": "NSW", "small_farms": 177, "medium_farms": 43, "large_farms": 39, "total_farms": 259},
     {"state": "Queensland", "state_code": "QLD", "small_farms": 74, "medium_farms": 21, "large_farms": 17, "total_farms": 112},
     {"state": "South Australia", "state_code": "SA", "small_farms": 73, "medium_farms": 4, "large_farms": 4, "total_farms": 81},
