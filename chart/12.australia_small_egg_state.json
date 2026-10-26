@@ -25,7 +25,7 @@
       "lookup": "properties.STATE_NAME",
       "from": {
         "data": {
-          "url": "../data/12.australia_egg_farms.json",
+          "url": "data/12.australia_egg_farms.json",
           "format": {
             "type": "json",
             "property": "state_data"
