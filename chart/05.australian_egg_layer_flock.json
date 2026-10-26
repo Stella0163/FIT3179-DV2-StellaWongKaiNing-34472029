@@ -39,7 +39,7 @@
 
     {
       "data": {
-        "url": "../data/05.fsanz_australia_egg_layer_flock_2025.json",
+        "url": "data/05.fsanz_australia_egg_layer_flock_2025.json",
         "format": {
           "type": "json",
           "property": "state_data"
@@ -105,10 +105,10 @@
               ">35%"
             ],
             "range": [
-              250,
+              150,
               700,
-              1300,
-              2000
+              2000,
+              4500
             ]
           },
           "legend": {
