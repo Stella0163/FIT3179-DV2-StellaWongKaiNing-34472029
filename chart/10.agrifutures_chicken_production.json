@@ -1,166 +1,558 @@
+
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 
   "title": {
-    "text": "Australian Chicken Meat Production by State",
-    "subtitle": "2023–24 production volume. SA, WA and TAS are reported as a combined total.",
-    "fontSize": 18,
-    "subtitleFontSize": 11,
-    "anchor": "start"
+    "text": "Growth of Australia's Chicken Meat Industry",
+    "subtitle": "How the 2017 - 2018 level built up to the 2023 - 2024 level",
+    "fontSize": 24,
+    "subtitleFontSize": 15,
+    "anchor": "start",
+    "offset": 16
   },
 
-  "width": 800,
-  "height": 500,
-
-  "projection": {
-    "type": "mercator",
-    "center": [125, -28],
-    "scale": 720
+  "data": {
+    "url": "../data/09.agrifutures_chicken_meat_national_value_volume.json",
+    "format": {
+      "type": "json"
+    }
   },
 
-  "layer": [
+  "hconcat": [
     {
-      "data": {
-        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson",
-        "format": {
-          "type": "json",
-          "property": "features"
-        }
+      "title": {
+        "text": "Production volume",
+        "fontSize": 18,
+        "anchor": "start",
+        "offset": 12
       },
 
-      "mark": {
-        "type": "geoshape",
-        "fill": "#F6E1D3",
-        "stroke": "white",
-        "strokeWidth": 1.2
-      },
-
-      "encoding": {
-        "tooltip": [
-          {
-            "field": "properties.STATE_NAME",
-            "type": "nominal",
-            "title": "State/Territory"
-          }
-        ]
-      }
-    },
-
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson",
-        "format": {
-          "type": "json",
-          "property": "features"
-        }
-      },
+      "width": 300,
+      "height": 400,
 
       "transform": [
         {
-          "calculate": "datum.properties.STATE_NAME",
-          "as": "state"
+          "fold": [
+            "production_million_tonnes",
+            "gross_value_billion_aud"
+          ],
+          "as": ["field", "value"]
         },
         {
-          "lookup": "state",
-          "from": {
-            "data": {
-              "values": [
-                {
-                  "state": "New South Wales",
-                  "production_tonnes": 537000
-                },
-                {
-                  "state": "Victoria",
-                  "production_tonnes": 276000
-                },
-                {
-                  "state": "Queensland",
-                  "production_tonnes": 260000
-                }
-              ]
+          "calculate": "datum.field === 'production_million_tonnes' ? 'Production Volume' : 'Gross Production Value'",
+          "as": "measure"
+        },
+        {
+          "filter": "datum.measure === 'Production Volume'"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "value",
+              "as": "start_value"
             },
-            "key": "state",
-            "fields": [
-              "production_tonnes"
-            ]
-          }
+            {
+              "op": "max",
+              "field": "value",
+              "as": "end_value"
+            }
+          ],
+          "groupby": ["measure"]
         },
         {
-          "filter": "isValid(datum.production_tonnes)"
+          "calculate": "['2017-2018', 'Increase', '2023-2024']",
+          "as": "steps"
+        },
+        {
+          "flatten": ["steps"],
+          "as": ["step"]
+        },
+        {
+          "calculate": "datum.step === '2017-2018' ? 'Starting level' : datum.step === 'Increase' ? 'Increase' : 'Ending level'",
+          "as": "kind"
+        },
+        {
+          "calculate": "datum.step === 'Increase' ? datum.start_value : 0",
+          "as": "bottom"
+        },
+        {
+          "calculate": "datum.step === '2017-2018' ? datum.start_value : datum.end_value",
+          "as": "top"
+        },
+        {
+          "calculate": "datum.step === 'Increase' ? '+' + format(datum.end_value - datum.start_value, '.2f') : format(datum.top, '.2f')",
+          "as": "short_label"
+        },
+        {
+          "calculate": "datum.step === 'Increase' ? '+' + format((datum.end_value - datum.start_value) / datum.start_value, '.1%') : ''",
+          "as": "percent_label"
+        },
+        {
+          "calculate": "datum.short_label + (datum.percent_label ? ' (' + datum.percent_label + ')' : '')",
+          "as": "label"
         }
       ],
 
-      "mark": {
-        "type": "geoshape",
-        "stroke": "white",
-        "strokeWidth": 1.2
+      "encoding": {
+        "x": {
+          "field": "step",
+          "type": "ordinal",
+          "sort": ["2017-2018", "Increase", "2023-2024"],
+          "title": null,
+          "axis": {
+            "labelAngle": 0,
+            "labelFontSize": 14,
+            "labelPadding": 10
+          }
+        }
       },
 
-      "encoding": {
-        "color": {
-          "field": "production_tonnes",
-          "type": "quantitative",
-          "title": "Production (tonnes)",
-          "scale": {
-            "scheme": "oranges"
+      "layer": [
+        {
+          "params": [
+            {
+              "name": "stepSelect",
+              "select": {
+                "type": "point",
+                "fields": ["step"],
+                "on": "click",
+                "toggle": true,
+                "clear": false
+              }
+            }
+          ],
+          "mark": {
+            "type": "bar",
+            "size": 72,
+            "cursor": "pointer",
+            "cornerRadiusTopLeft": 5,
+            "cornerRadiusTopRight": 5
+          },
+
+          "encoding": {
+            "y": {
+              "field": "bottom",
+              "type": "quantitative",
+              "title": "Million tonnes of chicken meat",
+              "scale": {
+                "domain": [0, 1.9]
+              },
+              "axis": {
+                "titleFontSize": 15,
+                "labelFontSize": 13,
+                "gridColor": "#e5e7eb"
+              }
+            },
+
+            "y2": {
+              "field": "top"
+            },
+
+            "color": {
+              "field": "kind",
+              "type": "nominal",
+              "title": "Stage",
+              "scale": {
+                "domain": [
+                  "Starting level",
+                  "Increase",
+                  "Ending level"
+                ],
+                "range": [
+                  "#9aa5a0",
+                  "#e9a72f",
+                  "#1f2a2e"
+                ]
+              },
+              "legend": {
+                "orient": "right",
+                "direction": "vertical",
+                "titleFontSize": 15,
+                "labelFontSize": 14,
+                "symbolSize": 180,
+                "padding": 12,
+                "offset": 20
+              }
+            },
+
+            "opacity": {
+              "condition": {
+                "param": "stepSelect",
+                "value": 1,
+                "empty": true
+              },
+              "value": 0.25
+            },
+
+            "stroke": {
+              "condition": {
+                "param": "stepSelect",
+                "value": "#111827",
+                "empty": false
+              },
+              "value": null
+            },
+
+            "strokeWidth": {
+              "condition": {
+                "param": "stepSelect",
+                "value": 2.5,
+                "empty": false
+              },
+              "value": 0
+            },
+
+            "tooltip": [
+              {
+                "field": "step",
+                "type": "nominal",
+                "title": "Stage"
+              },
+              {
+                "field": "label",
+                "type": "nominal",
+                "title": "Value"
+              }
+            ]
           }
         },
 
-        "tooltip": [
-          {
-            "field": "state",
-            "type": "nominal",
-            "title": "State"
+        {
+          "mark": {
+            "type": "text",
+            "baseline": "bottom",
+            "dy": -8,
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "color": "#1f2a2e"
           },
-          {
-            "field": "production_tonnes",
-            "type": "quantitative",
-            "title": "Production (tonnes)",
-            "format": ","
+
+          "encoding": {
+            "y": {
+              "field": "top",
+              "type": "quantitative"
+            },
+
+            "text": {
+              "field": "short_label"
+            },
+
+            "opacity": {
+              "condition": {
+                "param": "stepSelect",
+                "value": 1,
+                "empty": true
+              },
+              "value": 0.35
+            }
           }
-        ]
-      }
+        },
+
+        {
+          "transform": [
+            {
+              "filter": "datum.kind === 'Increase'"
+            }
+          ],
+
+          "mark": {
+            "type": "text",
+            "baseline": "bottom",
+            "dy": -28,
+            "fontSize": 13,
+            "fontWeight": "bold",
+            "color": "#8a5a00"
+          },
+
+          "encoding": {
+            "y": {
+              "field": "top",
+              "type": "quantitative"
+            },
+
+            "text": {
+              "field": "percent_label"
+            },
+
+            "opacity": {
+              "condition": {
+                "param": "stepSelect",
+                "value": 1,
+                "empty": true
+              },
+              "value": 0.35
+            }
+          }
+        }
+      ]
     },
 
     {
-      "data": {
-        "values": [
-          {
-            "longitude": 115,
-            "latitude": -42,
-            "note": "SA + WA + TAS combined: 377,000 tonnes"
-          }
-        ]
+      "title": {
+        "text": "Gross production value",
+        "fontSize": 18,
+        "anchor": "start",
+        "offset": 12
       },
 
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "fontSize": 11,
-        "fontWeight": "bold"
-      },
+      "width": 360,
+      "height": 400,
+
+      "transform": [
+        {
+          "fold": [
+            "production_million_tonnes",
+            "gross_value_billion_aud"
+          ],
+          "as": ["field", "value"]
+        },
+        {
+          "calculate": "datum.field === 'production_million_tonnes' ? 'Production Volume' : 'Gross Production Value'",
+          "as": "measure"
+        },
+        {
+          "filter": "datum.measure === 'Gross Production Value'"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "value",
+              "as": "start_value"
+            },
+            {
+              "op": "max",
+              "field": "value",
+              "as": "end_value"
+            }
+          ],
+          "groupby": ["measure"]
+        },
+        {
+          "calculate": "['2017-2018', 'Increase', '2023-2024']",
+          "as": "steps"
+        },
+        {
+          "flatten": ["steps"],
+          "as": ["step"]
+        },
+        {
+          "calculate": "datum.step === '2017-2018' ? 'Starting level' : datum.step === 'Increase' ? 'Increase' : 'Ending level'",
+          "as": "kind"
+        },
+        {
+          "calculate": "datum.step === 'Increase' ? datum.start_value : 0",
+          "as": "bottom"
+        },
+        {
+          "calculate": "datum.step === '2017-2018' ? datum.start_value : datum.end_value",
+          "as": "top"
+        },
+        {
+          "calculate": "datum.step === 'Increase' ? '+' + format(datum.end_value - datum.start_value, '.2f') : format(datum.top, '.2f')",
+          "as": "short_label"
+        },
+        {
+          "calculate": "datum.step === 'Increase' ? '+' + format((datum.end_value - datum.start_value) / datum.start_value, '.1%') : ''",
+          "as": "percent_label"
+        },
+        {
+          "calculate": "datum.short_label + (datum.percent_label ? ' (' + datum.percent_label + ')' : '')",
+          "as": "label"
+        }
+      ],
 
       "encoding": {
-        "longitude": {
-          "field": "longitude",
-          "type": "quantitative"
-        },
-
-        "latitude": {
-          "field": "latitude",
-          "type": "quantitative"
-        },
-
-        "text": {
-          "field": "note"
+        "x": {
+          "field": "step",
+          "type": "ordinal",
+          "sort": ["2017-2018", "Increase", "2023-2024"],
+          "title": null,
+          "axis": {
+            "labelAngle": 0,
+            "labelFontSize": 14,
+            "labelPadding": 10
+          }
         }
-      }
+      },
+
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "size": 72,
+            "cornerRadiusTopLeft": 5,
+            "cornerRadiusTopRight": 5
+          },
+
+          "encoding": {
+            "y": {
+              "field": "bottom",
+              "type": "quantitative",
+              "title": "Billion dollars",
+              "scale": {
+                "domain": [0, 5.2]
+              },
+              "axis": {
+                "titleFontSize": 15,
+                "labelFontSize": 13,
+                "gridColor": "#e5e7eb"
+              }
+            },
+
+            "y2": {
+              "field": "top"
+            },
+
+            "color": {
+              "field": "kind",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Starting level",
+                  "Increase",
+                  "Ending level"
+                ],
+                "range": [
+                  "#9aa5a0",
+                  "#e9a72f",
+                  "#1f2a2e"
+                ]
+              },
+              "legend": null
+            },
+
+            "opacity": {
+              "condition": {
+                "param": "stepSelect",
+                "value": 1,
+                "empty": true
+              },
+              "value": 0.25
+            },
+
+            "stroke": {
+              "condition": {
+                "param": "stepSelect",
+                "value": "#111827",
+                "empty": false
+              },
+              "value": null
+            },
+
+            "strokeWidth": {
+              "condition": {
+                "param": "stepSelect",
+                "value": 2.5,
+                "empty": false
+              },
+              "value": 0
+            },
+
+            "tooltip": [
+              {
+                "field": "step",
+                "type": "nominal",
+                "title": "Stage"
+              },
+              {
+                "field": "label",
+                "type": "nominal",
+                "title": "Value"
+              }
+            ]
+          }
+        },
+
+        {
+          "mark": {
+            "type": "text",
+            "baseline": "bottom",
+            "dy": -8,
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "color": "#1f2a2e"
+          },
+
+          "encoding": {
+            "y": {
+              "field": "top",
+              "type": "quantitative"
+            },
+
+            "text": {
+              "field": "short_label"
+            },
+
+            "opacity": {
+              "condition": {
+                "param": "stepSelect",
+                "value": 1,
+                "empty": true
+              },
+              "value": 0.35
+            }
+          }
+        },
+
+        {
+          "transform": [
+            {
+              "filter": "datum.kind === 'Increase'"
+            }
+          ],
+
+          "mark": {
+            "type": "text",
+            "baseline": "bottom",
+            "dy": -28,
+            "fontSize": 13,
+            "fontWeight": "bold",
+            "color": "#8a5a00"
+          },
+
+          "encoding": {
+            "y": {
+              "field": "top",
+              "type": "quantitative"
+            },
+
+            "text": {
+              "field": "percent_label"
+            },
+
+            "opacity": {
+              "condition": {
+                "param": "stepSelect",
+                "value": 1,
+                "empty": true
+              },
+              "value": 0.35
+            }
+          }
+        }
+      ]
     }
   ],
+
+  "resolve": {
+    "scale": {
+      "y": "independent",
+      "color": "shared"
+    }
+  },
 
   "config": {
     "view": {
       "stroke": null
+    },
+    "concat": {
+      "spacing": 70
+    },
+    "axis": {
+      "domainColor": "#9ca3af",
+      "tickColor": "#9ca3af"
     }
   }
 }

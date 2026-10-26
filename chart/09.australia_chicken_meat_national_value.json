@@ -11,69 +11,10 @@
   },
 
   "data": {
-    "values": [
-      {
-        "measure": "Production Volume",
-        "step": "2017-2018",
-        "bottom": 0,
-        "top": 1.19,
-        "kind": "Starting level",
-        "label": "1.19 million tonnes",
-        "short_label": "1.19",
-        "percent_label": ""
-      },
-      {
-        "measure": "Production Volume",
-        "step": "Increase",
-        "bottom": 1.19,
-        "top": 1.44,
-        "kind": "Increase",
-        "label": "+0.25 million tonnes (+21.0%)",
-        "short_label": "+0.25",
-        "percent_label": "+21.0%"
-      },
-      {
-        "measure": "Production Volume",
-        "step": "2023-2024",
-        "bottom": 0,
-        "top": 1.44,
-        "kind": "Ending level",
-        "label": "1.44 million tonnes",
-        "short_label": "1.44",
-        "percent_label": ""
-      },
-
-      {
-        "measure": "Gross Production Value",
-        "step": "2017-2018",
-        "bottom": 0,
-        "top": 3.29,
-        "kind": "Starting level",
-        "label": "3.29 billion dollars",
-        "short_label": "3.29",
-        "percent_label": ""
-      },
-      {
-        "measure": "Gross Production Value",
-        "step": "Increase",
-        "bottom": 3.29,
-        "top": 4.06,
-        "kind": "Increase",
-        "label": "+0.77 billion dollars (+23.4%)",
-        "short_label": "+0.77",
-        "percent_label": "+23.4%"
-      },
-      {
-        "measure": "Gross Production Value",
-        "step": "2023-2024",
-        "bottom": 0,
-        "top": 4.06,
-        "kind": "Ending level",
-        "label": "4.06 billion dollars",
-        "short_label": "4.06",
-        "percent_label": ""
-      }
-    ]
+    "url": "../data/04.aus_poultry_abares_2026.json",
+        "format": {
+        "type": "json"
+    }
   },
 
   "hconcat": [

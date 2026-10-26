@@ -19,6 +19,46 @@
     "scale": 650
   },
 
+  "data": {
+    "url": "data/05.fsanz_australia_egg_layer_flock_2025.json",
+    "format": {
+      "type": "json",
+      "property": "state_data"
+    }
+  },
+
+  "transform": [
+    {
+      "calculate": "datum.share_of_national_layer_flock_percent",
+      "as": "share_percent"
+    },
+
+    {
+      "calculate": "datum.state_code === 'NSW_ACT' ? 147 : datum.state_code === 'QLD' ? 145 : datum.state_code === 'VIC' ? 144.5 : datum.state_code === 'WA' ? 121 : datum.state_code === 'SA' ? 135 : 147",
+      "as": "longitude"
+    },
+
+    {
+      "calculate": "datum.state_code === 'NSW_ACT' ? -32 : datum.state_code === 'QLD' ? -22 : datum.state_code === 'VIC' ? -37 : datum.state_code === 'WA' ? -26 : datum.state_code === 'SA' ? -30 : -42",
+      "as": "latitude"
+    },
+
+    {
+      "calculate": "datum.share_percent <= 10 ? '0–10%' : datum.share_percent <= 25 ? '>10–25%' : datum.share_percent <= 35 ? '>25–35%' : '>35%'",
+      "as": "share_range"
+    },
+
+    {
+      "calculate": "datum.share_percent <= 10 ? '#A9D6E5' : datum.share_percent <= 25 ? '#61A5C2' : datum.share_percent <= 35 ? '#2C7DA0' : '#014F86'",
+      "as": "symbol_color"
+    },
+
+    {
+      "calculate": "datum.state_code === 'NSW_ACT' ? 'NSW + ACT' : datum.state_code",
+      "as": "map_label"
+    }
+  ],
+
   "layer": [
     {
       "data": {
@@ -31,49 +71,18 @@
 
       "mark": {
         "type": "geoshape",
-        "fill": "#F0F2F4",
-        "stroke": "#FFFFFF",
-        "strokeWidth": 1.5
+        "fill": "#F8F9FA",
+        "stroke": "#D5DEE5",
+        "strokeWidth": 1.3
       }
     },
 
     {
-      "data": {
-        "url": "data/05.fsanz_australia_egg_layer_flock_2025.json",
-        "format": {
-          "type": "json",
-          "property": "state_data"
-        }
-      },
-
-      "transform": [
-        {
-          "calculate": "datum.share_of_national_layer_flock_percent",
-          "as": "share_percent"
-        },
-
-        {
-          "calculate": "datum.state_code === 'NSW_ACT' ? 147 : datum.state_code === 'QLD' ? 145 : datum.state_code === 'VIC' ? 144.5 : datum.state_code === 'WA' ? 121 : datum.state_code === 'SA' ? 135 : 147",
-          "as": "longitude"
-        },
-
-        {
-          "calculate": "datum.state_code === 'NSW_ACT' ? -32 : datum.state_code === 'QLD' ? -22 : datum.state_code === 'VIC' ? -37 : datum.state_code === 'WA' ? -26 : datum.state_code === 'SA' ? -30 : -42",
-          "as": "latitude"
-        },
-
-        {
-          "calculate": "datum.share_percent <= 10 ? '0–10%' : datum.share_percent <= 25 ? '>10–25%' : datum.share_percent <= 35 ? '>25–35%' : '>35%'",
-          "as": "share_range"
-        }
-      ],
-
       "mark": {
         "type": "circle",
-        "color": "#2878B5",
-        "opacity": 0.8,
+        "opacity": 0.9,
         "stroke": "#FFFFFF",
-        "strokeWidth": 2,
+        "strokeWidth": 2.5,
         "cursor": "pointer"
       },
 
@@ -97,6 +106,7 @@
             ">25–35%",
             ">35%"
           ],
+
           "scale": {
             "domain": [
               "0–10%",
@@ -104,6 +114,7 @@
               ">25–35%",
               ">35%"
             ],
+
             "range": [
               150,
               700,
@@ -111,14 +122,26 @@
               4500
             ]
           },
+
           "legend": {
-            "title": "National Laying Flock Share",
+            "title": "Laying Flock Share (%)",
             "orient": "right",
             "titleFontSize": 13,
             "labelFontSize": 12,
+            "symbolType": "circle",
             "symbolFillColor": "#2878B5",
-            "symbolStrokeColor": "#FFFFFF"
+            "symbolStrokeColor": "#FFFFFF",
+            "symbolStrokeWidth": 1.5,
+            "offset": 20,
+            "padding": 15
           }
+        },
+
+        "color": {
+          "field": "symbol_color",
+          "type": "nominal",
+          "scale": null,
+          "legend": null
         },
 
         "tooltip": [
@@ -142,6 +165,35 @@
           }
         ]
       }
+    },
+
+    {
+      "mark": {
+        "type": "text",
+        "dx": 15,
+        "dy": -12,
+        "align": "left",
+        "fontSize": 13,
+        "fontWeight": "bold",
+        "color": "#17324D"
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+
+        "text": {
+          "field": "map_label",
+          "type": "nominal"
+        }
+      }
     }
   ],
 
@@ -154,7 +206,9 @@
 
     "legend": {
       "padding": 15,
-      "offset": 20
+      "offset": 20,
+      "labelFontSize": 12,
+      "titleFontSize": 13
     }
   }
 }
