@@ -251,6 +251,8 @@
         <li><a href="#h-farm-sizes">7. Egg farms by size</a></li>
         <li><a href="#h-economic-value">8. Industry value</a></li>
         <li><a href="#h-outlook">9. Future outlook</a></li>
+        <li><a href="#h-egg-consumption">10. Egg consumption</a></li>
+        <li><a href="#h-cafe-prices">11. Café egg meal prices</a></li>
       </ol>
     </nav>
 
@@ -445,6 +447,42 @@
         </div>
       </section>
 
+      <section class="story-section" aria-labelledby="h-egg-consumption">
+        <div class="story-head">
+          <p class="story-label">Part 10: Egg consumption</p>
+          <h2 id="h-egg-consumption">Egg consumption shows changes in Australian demand</h2>
+          <p class="story-intro">Annual consumption per person provides a demand-side perspective alongside Australia's egg production figures.</p>
+        </div>
+        <div class="chart-card">
+          <div class="chart" id="chart16" role="img" aria-label="Line chart of eggs consumed per person in Australia from 2021–22 to 2024–25"></div>
+        </div>
+        <div class="notes">
+          <p class="how-to-read"><strong>How to use this chart</strong>Follow the line from left to right and hover over each point to see the financial year and eggs consumed per person. The orange point highlights the latest decline.</p>
+          <div class="explanation">
+            <h3>Demand over time</h3>
+            <p>Egg consumption rose from 262 per person in 2021–22 to 266 in 2023–24, before falling to 259 in 2024–25. Consumption reflects demand, not the number of eggs produced.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="story-section" aria-labelledby="h-cafe-prices">
+        <div class="story-head">
+          <p class="story-label">Part 11: Café egg meal prices</p>
+          <h2 id="h-cafe-prices">Prepared egg meal prices vary between capital cities</h2>
+          <p class="story-intro">An April 2026 map compares the median listed café price of an “Eggs Your Way” meal across six Australian capitals.</p>
+        </div>
+        <div class="chart-card">
+          <div class="chart" id="chart15" role="img" aria-label="Map of median Eggs Your Way café meal prices in six Australian capital cities"></div>
+        </div>
+        <div class="notes">
+          <p class="how-to-read"><strong>How to use this map</strong>Each circle marks a capital city. Darker blue indicates a higher median price; hover over a marker for the exact price in Australian dollars.</p>
+          <div class="explanation">
+            <h3>Differences across cities</h3>
+            <p>Perth has the highest median meal price in this dataset ($16.00), while Sydney has the lowest ($14.00). These are prepared café meal prices, not farm-gate egg prices, so they provide market context rather than a direct measure of production.</p>
+          </div>
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -484,9 +522,11 @@
       ["#chart08", "chart/08.australia_chicken_meat_production.json"],
       ["#chart09", "chart/09.australia_chicken_meat_national_value.json"],
       ["#chart10", "chart/10.agrifutures_chicken_production.json"],
+      ["#chart11", "chart/11.australia_egg_price.json"],
       ["#chart12", "chart/12.australia_small_egg_state.json"],
       ["#chart13", "chart/13.australia_medium_egg_state.json"],
-      ["#chart14", "chart/14.australia_large_egg_state.json"]
+      ["#chart14", "chart/14.australia_large_egg_state.json"],
+      ["#chart16", "chart/16.australian_egg_consumption.json"]
     ];
 
     charts.forEach(([selector, path]) => {
