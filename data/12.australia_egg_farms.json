@@ -1,0 +1,28 @@
+{
+  "title": "Number of Australian Egg-Laying Farms by State and Farm Size",
+  "data_year": 2024,
+  "source": {
+    "publisher": "Food Standards Australia New Zealand",
+    "report": "P1060 Supporting Document 5 - Overview of the Egg Industry in Australia",
+    "published_date": "2025-09-25",
+    "table": "Table 1 - Number of layer farms by jurisdiction",
+    "pdf_page": 4,
+    "url": "https://www.foodstandards.gov.au/sites/default/files/2025-09/P1060%20SD5%20-%20Overview%20of%20egg%20industry%20in%20Australia.pdf"
+  },
+  "size_definitions": {
+    "small": "up to 10000 laying hens",
+    "medium": "10000 to 50000 laying hens",
+    "large": "more than 50000 laying hens"
+  },
+  "state_data": [
+    {"state": "Australian Capital Territory", "state_code": "ACT", "small_farms": 3, "medium_farms": 1, "large_farms": 0, "total_farms": 4},
+    {"state": "New South Wales", "state_code": "NSW", "small_farms": 177, "medium_farms": 43, "large_farms": 39, "total_farms": 259},
+    {"state": "Queensland", "state_code": "QLD", "small_farms": 74, "medium_farms": 21, "large_farms": 17, "total_farms": 112},
+    {"state": "South Australia", "state_code": "SA", "small_farms": 73, "medium_farms": 4, "large_farms": 4, "total_farms": 81},
+    {"state": "Tasmania", "state_code": "TAS", "small_farms": 15, "medium_farms": 3, "large_farms": 2, "total_farms": 20},
+    {"state": "Victoria", "state_code": "VIC", "small_farms": 789, "medium_farms": 63, "large_farms": 63, "total_farms": 915},
+    {"state": "Western Australia", "state_code": "WA", "small_farms": 62, "medium_farms": 8, "large_farms": 9, "total_farms": 79}
+  ],
+  "national_totals": {"small_farms": 1193, "medium_farms": 143, "large_farms": 134, "total_farms": 1470},
+  "note": "Farm counts are not laying-hen counts. Categories follow the report's stated boundaries; it describes medium farms as between 10000 and 50000 hens."
+}

@@ -1,0 +1,105 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Distribution of Small Egg Farms in Australia",
+    "subtitle": "2024 | Share of Australia's 1,193 small egg farms",
+    "fontSize": 22,
+    "subtitleFontSize": 13,
+    "anchor": "start"
+  },
+
+  "width": 700,
+  "height": 450,
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson",
+    "format": {
+      "type": "json",
+      "property": "features"
+    }
+  },
+
+  "transform": [
+    {
+      "lookup": "properties.STATE_NAME",
+      "from": {
+        "data": {
+          "url": "../data/12.australia_egg_farms.json",
+          "format": {
+            "type": "json",
+            "property": "state_data"
+          }
+        },
+        "key": "state",
+        "fields": ["small_farms"]
+      }
+    },
+    {
+      "calculate": "datum.small_farms == null ? null : datum.small_farms / 1193 * 100",
+      "as": "share_percent"
+    },
+    {
+      "calculate": "datum.properties.STATE_NAME",
+      "as": "state_name"
+    }
+  ],
+
+  "projection": {
+    "type": "mercator",
+    "center": [134, -28],
+    "scale": 620,
+    "translate": [350, 225]
+  },
+
+  "mark": {
+    "type": "geoshape",
+    "stroke": "white",
+    "strokeWidth": 1.5
+  },
+
+  "encoding": {
+    "color": {
+      "field": "share_percent",
+      "type": "quantitative",
+      "scale": {
+        "domain": [0, 70],
+        "scheme": "blues"
+      },
+      "legend": {
+        "title": "Share of National Small Farms (%)",
+        "orient": "right",
+        "gradientLength": 300,
+        "labelFontSize": 12,
+        "titleFontSize": 12
+      }
+    },
+
+    "tooltip": [
+      {
+        "field": "state_name",
+        "type": "nominal",
+        "title": "State"
+      },
+      {
+        "field": "small_farms",
+        "type": "quantitative",
+        "title": "Small Farms",
+        "format": ",.0f"
+      },
+      {
+        "field": "share_percent",
+        "type": "quantitative",
+        "title": "National Share (%)",
+        "format": ".1f"
+      }
+    ]
+  },
+
+  "config": {
+    "background": "white",
+    "view": {
+      "stroke": null
+    }
+  }
+}
