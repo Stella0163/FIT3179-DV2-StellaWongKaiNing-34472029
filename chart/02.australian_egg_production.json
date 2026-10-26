@@ -3,7 +3,7 @@
 
   "title": {
     "text": "Australia Egg Production by State, 2026",
-    "subtitle": "Share of national egg production by major producing states",
+    "subtitle": "Share of national egg production across six Australian states",
     "fontSize": 24,
     "subtitleFontSize": 14,
     "anchor": "start",
@@ -11,34 +11,24 @@
   },
 
   "data": {
-    "values": [
-      {
-        "state": "New South Wales",
-        "state_code": "NSW",
-        "share": 35
-      },
-      {
-        "state": "Victoria",
-        "state_code": "VIC",
-        "share": 28
-      },
-      {
-        "state": "Queensland",
-        "state_code": "QLD",
-        "share": 18
-      },
-      {
-        "state": "Other States",
-        "state_code": "OTHER",
-        "share": 19
-      }
-    ]
+    "url": "../data/02.australian_egg_production.json",
+    "format": {
+      "type": "json",
+      "property": "state_data"
+    }
   },
+
+  "transform": [
+    {
+      "calculate": "datum.share_of_national_production_percent",
+      "as": "share"
+    }
+  ],
 
   "vconcat": [
     {
-      "width": 600,
-      "height": 430,
+      "width": 650,
+      "height": 460,
 
       "title": {
         "text": "Distribution of National Egg Production",
@@ -46,160 +36,104 @@
         "anchor": "middle"
       },
 
-      "layer": [
+      "params": [
         {
-          "params": [
-            {
-              "name": "stateSelect",
-              "select": {
-                "type": "point",
-                "fields": ["state_code"],
-                "on": "click",
-                "toggle": "true",
-                "clear": false
-              }
-            }
-          ],
+          "name": "stateSelect",
+          "select": {
+            "type": "point",
+            "fields": ["state_code"],
+            "on": "click",
+            "toggle": "true",
+            "clear": "dblclick"
+          }
+        }
+      ],
 
-          "mark": {
-            "type": "arc",
-            "innerRadius": 55,
-            "stroke": "white",
-            "strokeWidth": 2,
-            "cornerRadius": 5,
-            "cursor": "pointer"
-          },
+      "mark": {
+        "type": "arc",
+        "innerRadius": 55,
+        "stroke": "white",
+        "strokeWidth": 2,
+        "cornerRadius": 5,
+        "cursor": "pointer"
+      },
 
-          "encoding": {
-            "theta": {
-              "field": "state_code",
-              "type": "nominal",
-              "sort": [
-                "NSW",
-                "VIC",
-                "QLD",
-                "OTHER"
-              ]
-            },
+      "encoding": {
+        "theta": {
+          "field": "state_code",
+          "type": "nominal",
+          "sort": ["QLD", "NSW", "VIC", "WA", "SA", "TAS"]
+        },
 
-            "radius": {
-              "field": "share",
-              "type": "quantitative",
-              "scale": {
-                "type": "sqrt",
-                "zero": true,
-                "rangeMin": 70,
-                "rangeMax": 180
-              }
-            },
-
-            "color": {
-              "field": "state",
-              "type": "nominal",
-              "title": "State / Group",
-
-              "scale": {
-                "domain": [
-                  "New South Wales",
-                  "Victoria",
-                  "Queensland",
-                  "Other States"
-                ],
-
-                "range": [
-                  "#1f4e79",
-                  "#4f81bd",
-                  "#87b5dc",
-                  "#c9dced"
-                ]
-              },
-
-              "legend": {
-                "orient": "right",
-                "titleFontSize": 14,
-                "labelFontSize": 13,
-                "symbolSize": 180,
-                "offset": 18
-              }
-            },
-
-            "opacity": {
-              "condition": {
-                "param": "stateSelect",
-                "value": 1,
-                "empty": true
-              },
-              "value": 0.2
-            },
-
-            "tooltip": [
-              {
-                "field": "state",
-                "type": "nominal",
-                "title": "State"
-              },
-              {
-                "field": "share",
-                "type": "quantitative",
-                "title": "Production Share (%)",
-                "format": ".0f"
-              }
-            ]
+        "radius": {
+          "field": "share",
+          "type": "quantitative",
+          "scale": {
+            "type": "sqrt",
+            "zero": true,
+            "rangeMin": 70,
+            "rangeMax": 190
           }
         },
 
-        {
-          "mark": {
-            "type": "text",
-            "radiusOffset": 24,
-            "fontSize": 13,
-            "fontWeight": "bold"
+        "color": {
+          "field": "state",
+          "type": "nominal",
+          "title": "Australian State",
+          "scale": {
+            "domain": [
+              "Queensland",
+              "New South Wales",
+              "Victoria",
+              "Western Australia",
+              "South Australia",
+              "Tasmania"
+            ],
+            "range": [
+              "#1F4E79",
+              "#356FA5",
+              "#5794C5",
+              "#81B4D9",
+              "#A9CFE8",
+              "#D1E5F3"
+            ]
           },
-
-          "encoding": {
-            "theta": {
-              "field": "state_code",
-              "type": "nominal",
-              "sort": [
-                "NSW",
-                "VIC",
-                "QLD",
-                "OTHER"
-              ]
-            },
-
-            "radius": {
-              "field": "share",
-              "type": "quantitative",
-              "scale": {
-                "type": "sqrt",
-                "zero": true,
-                "rangeMin": 70,
-                "rangeMax": 180
-              }
-            },
-
-            "text": {
-              "field": "state_code",
-              "type": "nominal"
-            },
-
-            "opacity": {
-              "condition": {
-                "param": "stateSelect",
-                "value": 1,
-                "empty": true
-              },
-              "value": 0.25
-            }
+          "legend": {
+            "orient": "right",
+            "titleFontSize": 14,
+            "labelFontSize": 13,
+            "symbolSize": 180
           }
-        }
-      ]
+        },
+
+        "opacity": {
+          "condition": {
+            "param": "stateSelect",
+            "value": 1,
+            "empty": true
+          },
+          "value": 0.2
+        },
+
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "share",
+            "type": "quantitative",
+            "title": "Production Share (%)",
+            "format": ".0f"
+          }
+        ]
+      }
     },
 
     {
       "width": 700,
-      "height": 240,
+      "height": 270,
 
       "title": {
         "text": "State Comparison",
@@ -207,24 +141,23 @@
         "anchor": "middle"
       },
 
+      "mark": {
+        "type": "bar",
+        "cornerRadiusTopLeft": 6,
+        "cornerRadiusTopRight": 6,
+        "cursor": "pointer"
+      },
+
       "encoding": {
         "x": {
           "field": "state_code",
           "type": "nominal",
-          "title": "State / Group",
-
-          "sort": [
-            "NSW",
-            "VIC",
-            "QLD",
-            "OTHER"
-          ],
-
+          "title": "Australian State",
+          "sort": ["QLD", "NSW", "VIC", "WA", "SA", "TAS"],
           "axis": {
             "labelAngle": 0,
             "labelFontSize": 13,
-            "titleFontSize": 14,
-            "labelPadding": 8
+            "titleFontSize": 14
           }
         },
 
@@ -232,41 +165,37 @@
           "field": "share",
           "type": "quantitative",
           "title": "Share of National Egg Production (%)",
-
           "scale": {
-            "domain": [
-              0,
-              40
-            ]
+            "domain": [0, 40]
           },
-
           "axis": {
             "labelFontSize": 13,
             "titleFontSize": 14,
-            "gridColor": "#e5e7eb"
+            "gridColor": "#E5E7EB"
           }
         },
 
         "color": {
           "field": "state",
           "type": "nominal",
-
           "scale": {
             "domain": [
+              "Queensland",
               "New South Wales",
               "Victoria",
-              "Queensland",
-              "Other States"
+              "Western Australia",
+              "South Australia",
+              "Tasmania"
             ],
-
             "range": [
-              "#1f4e79",
-              "#4f81bd",
-              "#87b5dc",
-              "#c9dced"
+              "#1F4E79",
+              "#356FA5",
+              "#5794C5",
+              "#81B4D9",
+              "#A9CFE8",
+              "#D1E5F3"
             ]
           },
-
           "legend": null
         },
 
@@ -292,50 +221,7 @@
             "format": ".0f"
           }
         ]
-      },
-
-      "layer": [
-        {
-          "mark": {
-            "type": "bar",
-            "cornerRadiusTopLeft": 6,
-            "cornerRadiusTopRight": 6
-          }
-        },
-
-        {
-          "mark": {
-            "type": "text",
-            "dy": -10,
-            "fontSize": 14,
-            "fontWeight": "bold",
-            "color": "#1f2a2e"
-          },
-
-          "encoding": {
-            "text": {
-              "field": "share",
-              "type": "quantitative",
-              "format": ".0f"
-            }
-          }
-        },
-
-        {
-          "mark": {
-            "type": "text",
-            "dy": -28,
-            "fontSize": 12,
-            "color": "#4b5563"
-          },
-
-          "encoding": {
-            "text": {
-              "value": "%"
-            }
-          }
-        }
-      ]
+      }
     }
   ],
 
@@ -345,12 +231,10 @@
     "view": {
       "stroke": null
     },
-
     "axis": {
       "labelFontSize": 13,
       "titleFontSize": 14
     },
-
     "legend": {
       "labelFontSize": 13,
       "titleFontSize": 14
