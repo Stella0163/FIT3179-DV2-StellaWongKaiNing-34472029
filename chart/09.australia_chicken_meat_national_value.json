@@ -11,11 +11,49 @@
   },
 
   "data": {
-    "url": "../data/04.aus_poultry_abares_2026.json",
+    "url": "data/04.aus_poultry_abares_2026.json",
         "format": {
         "type": "json"
     }
   },
+
+  "transform": [
+    {
+      "fold": [
+        "production_million_tonnes",
+        "gross_value_billion_aud"
+      ],
+      "as": ["metric", "value"]
+    },
+    {
+      "calculate": "datum.metric === 'production_million_tonnes' ? 'Production Volume' : 'Gross Production Value'",
+      "as": "measure"
+    },
+    {
+      "calculate": "datum.financial_year === '2017-18' ? 'Starting level' : 'Ending level'",
+      "as": "kind"
+    },
+    {
+      "calculate": "datum.financial_year === '2017-18' ? '2017-2018' : '2023-2024'",
+      "as": "step"
+    },
+    {
+      "calculate": "0",
+      "as": "bottom"
+    },
+    {
+      "calculate": "datum.value",
+      "as": "top"
+    },
+    {
+      "calculate": "format(datum.value, '.2f')",
+      "as": "short_label"
+    },
+    {
+      "calculate": "format(datum.value, '.2f')",
+      "as": "label"
+    }
+  ],
 
   "hconcat": [
     {
