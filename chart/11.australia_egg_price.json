@@ -1,0 +1,177 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Eggs Your Way Café Prices Across Australia",
+    "subtitle": "Median café menu prices in Australian capital cities, April 2026",
+    "fontSize": 23,
+    "subtitleFontSize": 13,
+    "anchor": "start"
+  },
+
+  "width": 760,
+  "height": 520,
+
+  "projection": {
+    "type": "mercator",
+    "center": [134, -28],
+    "scale": 650,
+    "translate": [380, 260]
+  },
+
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+
+      "mark": {
+        "type": "geoshape",
+        "fill": "#F0F2F3",
+        "stroke": "#FFFFFF",
+        "strokeWidth": 1.5
+      }
+    },
+
+    {
+      "data": {
+        "url": "../data/egg_cafe_prices_april_2026.json",
+        "format": {
+          "type": "json",
+          "property": "city_data"
+        }
+      },
+
+      "transform": [
+        {
+          "calculate": "datum.city === 'Sydney' ? 151.2093 : datum.city === 'Melbourne' ? 144.9631 : datum.city === 'Brisbane' ? 153.0251 : datum.city === 'Adelaide' ? 138.6007 : datum.city === 'Perth' ? 115.8605 : 147.3272",
+          "as": "longitude"
+        },
+        {
+          "calculate": "datum.city === 'Sydney' ? -33.8688 : datum.city === 'Melbourne' ? -37.8136 : datum.city === 'Brisbane' ? -27.4698 : datum.city === 'Adelaide' ? -34.9285 : datum.city === 'Perth' ? -31.9505 : -42.8821",
+          "as": "latitude"
+        }
+      ],
+
+      "mark": {
+        "type": "circle",
+        "size": 550,
+        "stroke": "#FFFFFF",
+        "strokeWidth": 2,
+        "opacity": 0.95
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+
+        "color": {
+          "field": "median_price_aud",
+          "type": "quantitative",
+          "scale": {
+            "domain": [14, 16],
+            "range": [
+              "#D6ECFA",
+              "#8BC4E8",
+              "#378FC8",
+              "#14558C"
+            ]
+          },
+          "legend": {
+            "title": "Median Price (AUD)",
+            "orient": "right",
+            "format": "$.2f",
+            "titleFontSize": 14,
+            "labelFontSize": 12,
+            "gradientLength": 220
+          }
+        },
+
+        "tooltip": [
+          {
+            "field": "city",
+            "type": "nominal",
+            "title": "Capital City"
+          },
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "median_price_aud",
+            "type": "quantitative",
+            "title": "Median Café Price (AUD)",
+            "format": "$.2f"
+          }
+        ]
+      }
+    },
+
+    {
+      "data": {
+        "url": "data/11.australia_egg_price.json",
+        "format": {
+          "type": "json",
+          "property": "city_data"
+        }
+      },
+
+      "transform": [
+        {
+          "calculate": "datum.city === 'Sydney' ? 151.2093 : datum.city === 'Melbourne' ? 144.9631 : datum.city === 'Brisbane' ? 153.0251 : datum.city === 'Adelaide' ? 138.6007 : datum.city === 'Perth' ? 115.8605 : 147.3272",
+          "as": "longitude"
+        },
+        {
+          "calculate": "datum.city === 'Sydney' ? -33.8688 : datum.city === 'Melbourne' ? -37.8136 : datum.city === 'Brisbane' ? -27.4698 : datum.city === 'Adelaide' ? -34.9285 : datum.city === 'Perth' ? -31.9505 : -42.8821",
+          "as": "latitude"
+        },
+        {
+          "calculate": "datum.city + ' $' + format(datum.median_price_aud, '.2f')",
+          "as": "city_label"
+        }
+      ],
+
+      "mark": {
+        "type": "text",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "dy": -23,
+        "color": "#17324D"
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "city_label",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "background": "white",
+    "view": {
+      "stroke": null
+    }
+  }
+}
