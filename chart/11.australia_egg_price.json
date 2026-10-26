@@ -39,7 +39,7 @@
 
     {
       "data": {
-        "url": "../data/egg_cafe_prices_april_2026.json",
+        "url": "../data/11.australia_egg_price.json",
         "format": {
           "type": "json",
           "property": "city_data"
@@ -121,7 +121,7 @@
 
     {
       "data": {
-        "url": "data/11.australia_egg_price.json",
+        "url": "../data/11.australia_egg_price.json",
         "format": {
           "type": "json",
           "property": "city_data"
