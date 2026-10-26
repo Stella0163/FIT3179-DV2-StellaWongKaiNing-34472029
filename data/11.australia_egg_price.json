@@ -12,6 +12,5 @@
     { "city": "Adelaide", "state": "South Australia", "state_code": "SA", "median_price_aud": 15.00 },
     { "city": "Perth", "state": "Western Australia", "state_code": "WA", "median_price_aud": 16.00 },
     { "city": "Hobart", "state": "Tasmania", "state_code": "TAS", "median_price_aud": 15.50 }
-  ],
-  "note": "City-level cafe meal prices, not state-level retail egg prices. The source displays a data period but no separately verified publication date."
+  ]
 }
