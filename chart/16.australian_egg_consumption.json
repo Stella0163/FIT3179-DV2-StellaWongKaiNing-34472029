@@ -3,84 +3,121 @@
 
   "title": {
     "text": "Australian Egg Consumption per Capita",
-    "subtitle": "Annual egg consumption per person, 2021–22 to 2024–25",
+    "subtitle": "Difference from the four-year average of 262.5 eggs per person (2021–2025)",
     "fontSize": 23,
     "subtitleFontSize": 14,
     "anchor": "start"
   },
 
   "data": {
-    "url": "../data/16.australian_egg_consumption.json",
+    "url": "data/16.australian_egg_consumption.json",
     "format": {
       "type": "json"
     }
   },
 
-  "width": 720,
-  "height": 400,
-
-  "encoding": {
-    "x": {
-      "field": "financial_year",
-      "type": "ordinal",
-      "sort": [
-        "2021-22",
-        "2022-23",
-        "2023-24",
-        "2024-25"
-      ],
-      "axis": {
-        "title": "Financial Year",
-        "labelFontSize": 13,
-        "titleFontSize": 15,
-        "labelAngle": 0,
-        "labelPadding": 12
-      }
+  "transform": [
+    {
+      "joinaggregate": [
+        {
+          "op": "mean",
+          "field": "eggs_per_person",
+          "as": "average"
+        }
+      ]
     },
-
-    "y": {
-      "field": "eggs_per_person",
-      "type": "quantitative",
-      "scale": {
-        "domain": [255, 270],
-        "zero": false
-      },
-      "axis": {
-        "title": "Eggs Consumed per Person",
-        "labelFontSize": 13,
-        "titleFontSize": 15,
-        "tickCount": 6,
-        "grid": true,
-        "gridColor": "#E5EAF0"
-      }
+    {
+      "calculate": "datum.eggs_per_person - datum.average",
+      "as": "difference"
+    },
+    {
+      "calculate": "datum.difference >= 0 ? 'Above Average' : 'Below Average'",
+      "as": "category"
+    },
+    {
+      "calculate": "(datum.difference > 0 ? '+' : '') + format(datum.difference, '.1f')",
+      "as": "difference_label"
     }
-  },
+  ],
+
+  "width": 720,
+  "height": 420,
 
   "layer": [
     {
       "mark": {
-        "type": "line",
-        "strokeWidth": 3.5,
-        "color": "#2F80C1"
+        "type": "rule",
+        "color": "#34495E",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "y": {
+          "datum": 0
+        }
       }
     },
 
     {
       "mark": {
-        "type": "point",
-        "filled": true,
-        "size": 180,
-        "stroke": "#FFFFFF",
-        "strokeWidth": 2
+        "type": "bar",
+        "size": 75,
+        "cornerRadiusEnd": 5
       },
 
       "encoding": {
-        "color": {
-          "condition": {
-            "test": "datum.financial_year === '2024-25'",
-            "value": "#F2994A"
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2021-22",
+            "2022-23",
+            "2023-24",
+            "2024-25"
+          ],
+          "axis": {
+            "title": "Financial Year",
+            "labelFontSize": 13,
+            "titleFontSize": 15,
+            "labelAngle": 0,
+            "labelPadding": 12
+          }
+        },
+
+        "y": {
+          "field": "difference",
+          "type": "quantitative",
+          "scale": {
+            "domain": [-4.5, 4.5]
           },
-          "value": "#2F80C1"
+          "axis": {
+            "title": "Difference from Average (Eggs per Person)",
+            "labelFontSize": 12,
+            "titleFontSize": 14,
+            "grid": true,
+            "gridColor": "#E5EAF0",
+            "tickCount": 9
+          }
+        },
+
+        "color": {
+          "field": "category",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Above Average",
+              "Below Average"
+            ],
+            "range": [
+              "#5AA9D6",
+              "#F4A261"
+            ]
+          },
+          "legend": {
+            "title": "Consumption Level",
+            "orient": "right",
+            "labelFontSize": 12,
+            "titleFontSize": 13
+          }
         },
 
         "tooltip": [
@@ -92,35 +129,22 @@
           {
             "field": "eggs_per_person",
             "type": "quantitative",
-            "title": "Eggs per Person",
-            "format": ",.0f"
+            "title": "Eggs Consumed per Person",
+            "format": ".0f"
+          },
+          {
+            "field": "average",
+            "type": "quantitative",
+            "title": "Four-Year Average",
+            "format": ".1f"
+          },
+          {
+            "field": "difference",
+            "type": "quantitative",
+            "title": "Difference from Average",
+            "format": "+.1f"
           }
         ]
-      }
-    },
-
-    {
-      "mark": {
-        "type": "text",
-        "dy": -20,
-        "fontSize": 15,
-        "fontWeight": "bold"
-      },
-
-      "encoding": {
-        "text": {
-          "field": "eggs_per_person",
-          "type": "quantitative",
-          "format": ",.0f"
-        },
-
-        "color": {
-          "condition": {
-            "test": "datum.financial_year === '2024-25'",
-            "value": "#E67E22"
-          },
-          "value": "#17324D"
-        }
       }
     }
   ],
