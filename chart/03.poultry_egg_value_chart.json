@@ -2,16 +2,20 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 
   "title": {
-    "text": "Australian Poultry and Egg Production Value from 2025 to 2026",
-    "fontSize": 18
+    "text": "Australian Poultry and Egg Production Value, 2025 to 2026",
+    "font": "Arial",
+    "fontSize": 18,
+    "fontWeight": "bold",
+    "anchor": "start",
+    "offset": 12
   },
 
   "data": {
     "url": "data/03.abares_poultry_egg_value_2025-2026.json"
   },
 
-  "width": 600,
-  "height": 200,
+  "width": 480,
+  "height": 170,
 
   "encoding": {
     "y": {
