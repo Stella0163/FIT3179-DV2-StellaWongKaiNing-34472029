@@ -16,13 +16,13 @@
     "offset": 15
   },
 
-  "width": 550,
+  "width": 470,
   "height": 400,
 
   "projection": {
     "type": "mercator",
     "center": [134, -28],
-    "scale": 650
+    "scale": 550
   },
 
   "data": {
@@ -173,10 +173,10 @@
             "symbolFillColor": "#A180BD",
             "symbolStrokeColor": "#FFFFFF",
             "symbolStrokeWidth": 1.5,
-            "titleFontSize": 13,
+            "titleFontSize": 12,
             "labelFontSize": 12,
-            "offset": 20,
-            "padding": 15
+            "offset": 0,
+            "padding": 0
           }
         },
 
