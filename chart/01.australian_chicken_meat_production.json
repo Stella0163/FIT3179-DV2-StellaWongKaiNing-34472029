@@ -16,7 +16,7 @@
     "offset": 12
   },
   "data": {
-    "url": "../data/01.chicken_quarterly_2024-2026.json",
+    "url": "data/01.chicken_quarterly_2024-2026.json",
     "format": {
       "type": "json",
       "property": "values"
