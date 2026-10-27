@@ -1,29 +1,28 @@
+
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-
   "background": "white",
-  "padding": { "left": 20, "right": 20, "top": 20, "bottom": 20 },
-
+  "padding": 10,
   "title": {
-    "text": "Australian Chicken Meat Production, 1999–2025",
-    "subtitle": "Click a bar to focus on a year. Click the same bar again to reset.",
-    "fontSize": 28,
+    "text": "Australian Chicken Meat Production, 2005 to 2025",
+    "subtitle": "Select a growth bar to highlight a year. Select it again to reset.",
+    "font": "Georgia",
+    "fontSize": 21,
     "fontWeight": "bold",
-    "subtitleFontSize": 15,
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 12,
     "subtitleColor": "#4b5563",
     "anchor": "start",
-    "offset": 16
+    "offset": 12
   },
-
   "data": {
-    "url": "data/08.australia_chicken_meat_production_1999-2025.json"
+    "url": "data/08.australia_chicken_meat_production_1999-2025.json",
+    "format": {"type": "json"}
   },
-
   "vconcat": [
     {
-      "width": 750,
-      "height": 380,
-
+      "width": 600,
+      "height": 250,
       "encoding": {
         "x": {
           "field": "year",
@@ -43,43 +42,37 @@
           "field": "production_thousand_mt",
           "type": "quantitative",
           "title": "Production (thousand tonnes)",
-          "scale": { "zero": false },
+          "scale": {"zero": false},
           "axis": {
-            "titleFontSize": 18,
-            "labelFontSize": 14,
+            "titleFontSize": 13,
+            "labelFontSize": 11,
             "grid": true,
             "gridColor": "#e5e7eb",
-            "tickColor": "#9ca3af",
-            "domainColor": "#9ca3af",
-            "format": ",.0f",
-            "labelExpr": "format(datum.value, ',.0f')"
+            "format": ",.0f"
           }
         }
       },
-
       "layer": [
         {
           "mark": {
             "type": "area",
-            "color": "#cbd5e1",
+            "color": "#C9D7C8",
             "opacity": 0.45
           }
         },
-
         {
           "mark": {
             "type": "line",
-            "color": "#1f2a2e",
-            "strokeWidth": 4
+            "color": "#3F6B5B",
+            "strokeWidth": 3
           }
         },
-
         {
           "mark": {
             "type": "point",
             "filled": true,
-            "color": "#1f2a2e",
-            "size": 85
+            "color": "#3F6B5B",
+            "size": 50
           },
           "encoding": {
             "opacity": {
@@ -91,7 +84,11 @@
               "value": 0.22
             },
             "tooltip": [
-              { "field": "year", "type": "ordinal", "title": "Year" },
+              {
+                "field": "year",
+                "type": "ordinal",
+                "title": "Year"
+              },
               {
                 "field": "production_thousand_mt",
                 "type": "quantitative",
@@ -101,7 +98,6 @@
             ]
           }
         },
-
         {
           "transform": [
             {
@@ -114,13 +110,12 @@
           "mark": {
             "type": "point",
             "filled": true,
-            "size": 320,
-            "color": "#f2b431",
-            "stroke": "#1f2a2e",
-            "strokeWidth": 3
+            "size": 200,
+            "color": "#F2B431",
+            "stroke": "#1F2A2E",
+            "strokeWidth": 2
           }
         },
-
         {
           "transform": [
             {
@@ -148,14 +143,14 @@
                 "type": "text",
                 "align": "left",
                 "baseline": "top",
-                "fontSize": 16,
+                "fontSize": 12,
                 "fontWeight": "bold",
                 "color": "#111827"
               },
               "encoding": {
-                "x": { "value": 18 },
-                "y": { "value": 18 },
-                "text": { "field": "label1" }
+                "x": {"value": 12},
+                "y": {"value": 12},
+                "text": {"field": "label1"}
               }
             },
             {
@@ -163,13 +158,13 @@
                 "type": "text",
                 "align": "left",
                 "baseline": "top",
-                "fontSize": 15,
+                "fontSize": 12,
                 "color": "#374151"
               },
               "encoding": {
-                "x": { "value": 18 },
-                "y": { "value": 42 },
-                "text": { "field": "label2" }
+                "x": {"value": 12},
+                "y": {"value": 30},
+                "text": {"field": "label2"}
               }
             },
             {
@@ -177,45 +172,43 @@
                 "type": "text",
                 "align": "left",
                 "baseline": "top",
-                "fontSize": 15,
+                "fontSize": 12,
                 "color": "#374151"
               },
               "encoding": {
-                "x": { "value": 18 },
-                "y": { "value": 64 },
-                "text": { "field": "label3" }
+                "x": {"value": 12},
+                "y": {"value": 48},
+                "text": {"field": "label3"}
               }
             }
           ]
         }
       ]
     },
-
     {
-      "width": 1050,
-      "height": 220,
-
+      "width": 600,
+      "height": 175,
       "transform": [
-        { "filter": "datum.growth_percent != null" },
+        {
+          "filter": "datum.growth_percent != null"
+        },
         {
           "calculate": "datum.growth_percent >= 0 ? 'Growth' : 'Decline'",
           "as": "direction"
         }
       ],
-
       "layer": [
         {
           "mark": {
             "type": "rule",
             "strokeDash": [5, 4],
             "color": "#9ca3af",
-            "strokeWidth": 1.5
+            "strokeWidth": 1.2
           },
           "encoding": {
-            "y": { "datum": 0 }
+            "y": {"datum": 0}
           }
         },
-
         {
           "params": [
             {
@@ -229,66 +222,56 @@
               }
             }
           ],
-
           "mark": {
             "type": "bar",
             "cursor": "pointer",
-            "cornerRadiusTopLeft": 3,
-            "cornerRadiusTopRight": 3
+            "cornerRadiusTopLeft": 2,
+            "cornerRadiusTopRight": 2
           },
-
           "encoding": {
             "x": {
               "field": "year",
               "type": "ordinal",
-              "title": "Year",
+              "title": null,
               "axis": {
-                "labelAngle": -40,
-                "labelFontSize": 14,
-                "titleFontSize": 18,
-                "labelColor": "#111827",
-                "titleColor": "#111827",
-                "domainColor": "#9ca3af",
-                "tickColor": "#9ca3af"
+                "labelAngle": -45,
+                "labelFontSize": 10
               },
               "scale": {
                 "paddingInner": 0.16,
                 "paddingOuter": 0.02
               }
             },
-
             "y": {
               "field": "growth_percent",
               "type": "quantitative",
               "title": "Annual growth (%)",
               "axis": {
-                "titleFontSize": 18,
-                "labelFontSize": 14,
+                "titleFontSize": 13,
+                "labelFontSize": 11,
                 "grid": true,
-                "gridColor": "#f1f5f9",
-                "domainColor": "#9ca3af",
-                "tickColor": "#9ca3af"
+                "gridColor": "#f1f5f9"
               }
             },
-
             "color": {
               "field": "direction",
               "type": "nominal",
-              "title": "Changes",
+              "title": null,
               "scale": {
                 "domain": ["Growth", "Decline"],
-                "range": ["#f2b431", "#b5382b"]
+                "range": ["#F2B431", "#B5382B"]
               },
               "legend": {
                 "orient": "right",
                 "direction": "vertical",
-                "titleFontSize": 18,
-                "labelFontSize": 15,
+                "titleFontSize": 12,
+                "labelFontSize": 11,
                 "symbolType": "square",
-                "padding": 10
+                "symbolSize": 100,
+                "padding": 5,
+                "offset": 8
               }
             },
-
             "opacity": {
               "condition": {
                 "param": "focus",
@@ -297,7 +280,6 @@
               },
               "value": 0.25
             },
-
             "stroke": {
               "condition": {
                 "param": "focus",
@@ -306,43 +288,54 @@
               },
               "value": null
             },
-
             "strokeWidth": {
               "condition": {
                 "param": "focus",
-                "value": 2.5,
+                "value": 2,
                 "empty": false
               },
               "value": 0
             },
-
             "tooltip": [
-              { "field": "year", "type": "ordinal", "title": "Year" },
+              {
+                "field": "year",
+                "type": "ordinal",
+                "title": "Year"
+              },
               {
                 "field": "growth_percent",
                 "type": "quantitative",
-                "title": "Growth compared with previous year (%)",
+                "title": "Annual growth (%)",
                 "format": ".2f"
               }
             ]
+          }
+        },
+        {
+          "transform": [
+            {"filter": "datum.year == 2010"}
+          ],
+          "mark": {
+            "type": "text"
           }
         }
       ]
     }
   ],
-
   "resolve": {
     "scale": {
       "x": "shared"
     }
   },
-
   "config": {
-    "view": {
-      "stroke": null
+    "view": {"stroke": null},
+    "concat": {"spacing": 16},
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
     },
-    "concat": {
-      "spacing": 26
+    "legend": {
+      "labelFont": "Arial"
     }
   }
 }
