@@ -67,7 +67,7 @@
         "scheme": "blues"
       },
       "legend": {
-        "title": "Share of National Small Farms (%)",
+        "title": "Small Farms (%)",
         "orient": "right",
         "gradientLength": 300,
         "labelFontSize": 12,

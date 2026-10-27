@@ -67,7 +67,7 @@
         "scheme": "blues"
       },
       "legend": {
-        "title": "Share of National Large Farms (%)",
+        "title": "Large Farms (%)",
         "orient": "right",
         "gradientLength": 300,
         "labelFontSize": 12,
