@@ -21,7 +21,7 @@
   },
   "vconcat": [
     {
-      "width": 600,
+      "width": 400,
       "height": 250,
       "encoding": {
         "x": {
@@ -186,7 +186,7 @@
       ]
     },
     {
-      "width": 600,
+      "width": 400,
       "height": 175,
       "transform": [
         {

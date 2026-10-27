@@ -1,74 +1,26 @@
 
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "white",
+  "padding": 10,
   "title": {
     "text": "Quarterly Performance of Australia's Chicken Industry",
-    "subtitle": [
-      "Percentage change from Jun 2024 to Jun 2026",
-      "Vertical scale shows change from Jun 2024 (%); horizon bands: 0–6 and 6–12 percentage points"
-    ],
-    "fontSize": 24,
-    "subtitleFontSize": 14,
+    "subtitle": "Percentage change relative to June 2024",
+    "font": "Georgia",
+    "fontSize": 21,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 12,
+    "subtitleColor": "#4b5563",
     "anchor": "start",
-    "offset": 18
+    "offset": 12
   },
   "data": {
-    "values": [
-      {
-        "quarter": "Jun-24",
-        "chicken_meat": 371.6,
-        "slaughtered": 186411.5,
-        "gross_value": 1042.8
-      },
-      {
-        "quarter": "Sep-24",
-        "chicken_meat": 372.1,
-        "slaughtered": 185751.0,
-        "gross_value": 1028.6
-      },
-      {
-        "quarter": "Dec-24",
-        "chicken_meat": 378.3,
-        "slaughtered": 187058.8,
-        "gross_value": 1032.3
-      },
-      {
-        "quarter": "Mar-25",
-        "chicken_meat": 391.2,
-        "slaughtered": 189690.8,
-        "gross_value": 1041.6
-      },
-      {
-        "quarter": "Jun-25",
-        "chicken_meat": 393.2,
-        "slaughtered": 189819.0,
-        "gross_value": 1047.8
-      },
-      {
-        "quarter": "Sep-25",
-        "chicken_meat": 389.3,
-        "slaughtered": 191025.7,
-        "gross_value": 1034.3
-      },
-      {
-        "quarter": "Dec-25",
-        "chicken_meat": 391.6,
-        "slaughtered": 192914.0,
-        "gross_value": 1039.4
-      },
-      {
-        "quarter": "Mar-26",
-        "chicken_meat": 397.0,
-        "slaughtered": 198015.9,
-        "gross_value": 1028.9
-      },
-      {
-        "quarter": "Jun-26",
-        "chicken_meat": 409.1,
-        "slaughtered": 200279.2,
-        "gross_value": 1076.7
-      }
-    ]
+    "url": "../data/01.chicken_quarterly_2024-2026.json",
+    "format": {
+      "type": "json",
+      "property": "values"
+    }
   },
   "transform": [
     {
@@ -136,22 +88,23 @@
         "Poultry Gross Value"
       ],
       "header": {
-        "labelFontSize": 16,
+        "labelFont": "Arial",
+        "labelFontSize": 13,
         "labelFontWeight": "bold",
         "labelOrient": "top",
         "labelAnchor": "start",
-        "labelPadding": 8
+        "labelPadding": 6
       }
     }
   },
   "spec": {
-    "width": 850,
-    "height": 85,
+    "width": 600,
+    "height": 90,
     "encoding": {
       "x": {
         "field": "quarter",
         "type": "ordinal",
-        "title": "Quarter",
+        "title": null,
         "sort": [
           "Jun-24",
           "Sep-24",
@@ -165,16 +118,16 @@
         ],
         "axis": {
           "labelAngle": 0,
-          "labelFontSize": 14,
-          "titleFontSize": 16,
-          "titlePadding": 12
+          "labelFontSize": 10,
+          "domainColor": "#9ca3af",
+          "tickColor": "#9ca3af"
         }
       },
       "tooltip": [
         {
-          "field": "Date",
-          "type": "nominal",
-          "title": "quarter"
+          "field": "quarter",
+          "type": "ordinal",
+          "title": "Quarter"
         },
         {
           "field": "measure_label",
@@ -201,7 +154,7 @@
           "type": "area",
           "interpolate": "linear",
           "clip": true,
-          "color": "#A7CBE8"
+          "color": "#F6D58A"
         },
         "encoding": {
           "y": {
@@ -245,7 +198,7 @@
           "type": "area",
           "interpolate": "linear",
           "clip": true,
-          "color": "#1764A5"
+          "color": "#F2B431"
         },
         "encoding": {
           "y": {
@@ -267,7 +220,7 @@
           "type": "area",
           "interpolate": "linear",
           "clip": true,
-          "color": "#C65A34"
+          "color": "#B5382B"
         },
         "encoding": {
           "y": {
@@ -291,7 +244,11 @@
       "stroke": null
     },
     "facet": {
-      "spacing": 24
+      "spacing": 18
+    },
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
     }
   }
 }
