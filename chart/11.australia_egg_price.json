@@ -2,8 +2,8 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 
   "title": {
-    "text": "Eggs Your Way Café Prices Across Australia",
-    "subtitle": "Median café menu prices in Australian capital cities, April 2026",
+    "text": "Australian Capital Cities Restaurant Egg prices",
+    "subtitle": "Median restaurant menu prices in Australian capital cities, 2026",
     "fontSize": 23,
     "subtitleFontSize": 13,
     "anchor": "start"

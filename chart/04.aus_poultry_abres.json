@@ -1,18 +1,51 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 
+  "background": "white",
+
   "title": {
     "text": "Forecast Growth of Australia's Chicken Industry",
-    "fontSize": 22,
+    "subtitle": "Growth index relative to the baseline of 100",
+    "font": "Arial",
+    "fontSize": 21,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 12,
+    "subtitleColor": "#4b5563",
     "anchor": "middle",
-    "offset": 18
+    "offset": 15
   },
 
-  "width": 360,
-  "height": 370,
+  "width": 520,
+  "height": 380,
+
+  "padding": {
+    "top": 15,
+    "bottom": 10,
+    "left": 10,
+    "right": 10
+  },
+
+  "encoding": {
+    "x": {
+      "field": "x",
+      "type": "quantitative",
+      "scale": {
+        "domain": [-66, 66]
+      },
+      "axis": null
+    },
+    "y": {
+      "field": "y",
+      "type": "quantitative",
+      "scale": {
+        "domain": [-72, 52]
+      },
+      "axis": null
+    }
+  },
 
   "layer": [
-
     {
       "data": {
         "values": [
@@ -35,34 +68,16 @@
 
       "mark": {
         "type": "line",
-        "stroke": "#cccccc",
-        "strokeDash": [4, 4]
+        "stroke": "#D1D5DB",
+        "strokeDash": [4, 4],
+        "strokeWidth": 1.2
       },
 
       "encoding": {
-        "x": {
-          "field": "x",
-          "type": "quantitative",
-          "axis": null,
-          "scale": {
-            "domain": [-70, 45]
-          }
-        },
-
-        "y": {
-          "field": "y",
-          "type": "quantitative",
-          "axis": null,
-          "scale": {
-            "domain": [-65, 45]
-          }
-        },
-
         "detail": {
           "field": "ring",
           "type": "nominal"
         },
-
         "order": {
           "field": "order",
           "type": "ordinal"
@@ -86,26 +101,15 @@
 
       "mark": {
         "type": "line",
-        "stroke": "#dddddd",
-        "strokeWidth": 1
+        "stroke": "#D1D5DB",
+        "strokeWidth": 1.2
       },
 
       "encoding": {
-        "x": {
-          "field": "x",
-          "type": "quantitative"
-        },
-
-        "y": {
-          "field": "y",
-          "type": "quantitative"
-        },
-
         "detail": {
           "field": "axis",
           "type": "nominal"
         },
-
         "order": {
           "field": "order",
           "type": "ordinal"
@@ -186,24 +190,33 @@
 
       "mark": {
         "type": "line",
-        "strokeWidth": 3
+        "strokeWidth": 3.5
       },
 
       "encoding": {
-        "x": {
-          "field": "x",
-          "type": "quantitative"
-        },
-
-        "y": {
-          "field": "y",
-          "type": "quantitative"
-        },
-
         "color": {
           "field": "period",
           "type": "nominal",
-          "title": "Forecast Period"
+          "title": "Forecast Period",
+          "scale": {
+            "domain": [
+              "2025-26 Forecast",
+              "2030-31 Forecast"
+            ],
+            "range": [
+              "#5B9BD5",
+              "#A46EBF"
+            ]
+          },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "title": null,
+            "labelFontSize": 12,
+            "symbolStrokeWidth": 3,
+            "symbolSize": 180,
+            "offset": 8
+          }
         },
 
         "detail": {
@@ -242,7 +255,6 @@
             "x": -38.80,
             "y": 22.4
           },
-
           {
             "period": "2030-31 Forecast",
             "measure": "Chickens Slaughtered",
@@ -270,23 +282,25 @@
       "mark": {
         "type": "point",
         "filled": true,
-        "size": 130
+        "size": 140,
+        "stroke": "white",
+        "strokeWidth": 1.5
       },
 
       "encoding": {
-        "x": {
-          "field": "x",
-          "type": "quantitative"
-        },
-
-        "y": {
-          "field": "y",
-          "type": "quantitative"
-        },
-
         "color": {
           "field": "period",
           "type": "nominal",
+          "scale": {
+            "domain": [
+              "2025-26 Forecast",
+              "2030-31 Forecast"
+            ],
+            "range": [
+              "#5B9BD5",
+              "#A46EBF"
+            ]
+          },
           "legend": null
         },
 
@@ -317,38 +331,31 @@
           {
             "label": "Chickens Slaughtered",
             "x": 0,
-            "y": -61
+            "y": -62
           },
           {
             "label": "Chicken Meat Production",
-            "x": 58,
-            "y": 31
+            "x": 43,
+            "y": 38
           },
           {
             "label": "Chicken Meat Exports",
-            "x": -58,
-            "y": 31
+            "x": -43,
+            "y": 38
           }
         ]
       },
 
       "mark": {
         "type": "text",
+        "font": "Arial",
         "fontSize": 12,
-        "fontWeight": "bold"
+        "fontWeight": "bold",
+        "color": "#374151",
+        "align": "center"
       },
 
       "encoding": {
-        "x": {
-          "field": "x",
-          "type": "quantitative"
-        },
-
-        "y": {
-          "field": "y",
-          "type": "quantitative"
-        },
-
         "text": {
           "field": "label",
           "type": "nominal"
@@ -367,23 +374,44 @@
 
       "mark": {
         "type": "text",
+        "font": "Arial",
         "fontSize": 10,
-        "fill": "#777777",
+        "color": "#6B7280",
         "align": "left",
-        "dx": 4
+        "dx": 5
       },
 
       "encoding": {
-        "x": {
-          "field": "x",
-          "type": "quantitative"
-        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        }
+      }
+    },
 
-        "y": {
-          "field": "y",
-          "type": "quantitative"
-        },
+    {
+      "data": {
+        "values": [
+          {
+            "x": -46.51,
+            "y": 26.85,
+            "label": "143.7"
+          }
+        ]
+      },
 
+      "mark": {
+        "type": "text",
+        "font": "Arial",
+        "fontSize": 14,
+        "fontWeight": "bold",
+        "color": "#79539E",
+        "align": "center",
+        "dx": 0,
+        "dy": -16
+      },
+
+      "encoding": {
         "text": {
           "field": "label",
           "type": "nominal"
@@ -395,6 +423,11 @@
   "config": {
     "view": {
       "stroke": null
+    },
+
+    "legend": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
     }
   }
 }
