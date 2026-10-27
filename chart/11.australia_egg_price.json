@@ -13,9 +13,7 @@
   "height": 520,
 
   "projection": {
-    "type": "mercator",
-    "center": [134, -28],
-    "scale": 520
+    "type": "mercator"
   },
 
   "layer": [
@@ -89,11 +87,13 @@
           },
           "legend": {
             "title": "Median Price (AUD)",
-            "orient": "right",
+            "orient": "bottom",
+            "direction": "horizontal",
             "format": "$.2f",
-            "titleFontSize": 14,
+            "titleFontSize": 13,
             "labelFontSize": 12,
-            "gradientLength": 220
+            "gradientLength": 280,
+            "offset": 10
           }
         },
 
