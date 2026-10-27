@@ -16,10 +16,11 @@
     "offset": 12
   },
   "data": {
-    "url": "data/09.agrifutures_chicken_meat_national_value_volume.json",
+    "url": "../data/09.agrifutures_chicken_meat_national_value_volume.json",
     "format": {
       "type": "json"
     }
+    
   },
   "transform": [
     {
