@@ -1,12 +1,38 @@
 [
   {
     "financial_year": "2017-18",
+    "stage": "Starting level",
     "production_million_tonnes": 1.19,
-    "gross_value_billion_aud": 3.29
+    "gross_value_billion_aud": 3.29,
+    "production_bottom": 0,
+    "production_top": 1.19,
+    "value_bottom": 0,
+    "value_top": 3.29,
+    "production_percent": "",
+    "value_percent": ""
+  },
+  {
+    "financial_year": "Increase",
+    "stage": "Increase",
+    "production_million_tonnes": 0.25,
+    "gross_value_billion_aud": 0.77,
+    "production_bottom": 1.19,
+    "production_top": 1.44,
+    "value_bottom": 3.29,
+    "value_top": 4.06,
+    "production_percent": "+21.0%",
+    "value_percent": "+23.4%"
   },
   {
     "financial_year": "2023-24",
+    "stage": "Ending level",
     "production_million_tonnes": 1.44,
-    "gross_value_billion_aud": 4.06
+    "gross_value_billion_aud": 4.06,
+    "production_bottom": 0,
+    "production_top": 1.44,
+    "value_bottom": 0,
+    "value_top": 4.06,
+    "production_percent": "",
+    "value_percent": ""
   }
 ]

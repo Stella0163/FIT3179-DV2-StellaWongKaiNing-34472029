@@ -18,66 +18,43 @@
   },
 
   "transform": [
-  {
-    "fold": [
-      "production_million_tonnes",
-      "gross_value_billion_aud"
-    ],
-    "as": ["metric", "value"]
-  },
-  {
-    "calculate": "datum.metric === 'production_million_tonnes' ? 'Production Volume' : 'Gross Production Value'",
-    "as": "measure"
-  },
-  {
-    "joinaggregate": [
-      {
-        "op": "min",
-        "field": "value",
-        "as": "start_value"
-      },
-      {
-        "op": "max",
-        "field": "value",
-        "as": "end_value"
-      }
-    ],
-    "groupby": ["measure"]
+    {
+      "fold": [
+        "production_million_tonnes",
+        "gross_value_billion_aud"
+      ],
+      "as": ["metric", "value"]
     },
     {
-      "calculate": "datum.financial_year === '2017-18' ? ['Starting level'] : ['Increase', 'Ending level']",
-      "as": "stages"
+      "calculate": "datum.metric === 'production_million_tonnes' ? 'Production Volume' : 'Gross Production Value'",
+      "as": "measure"
     },
     {
-      "flatten": ["stages"],
-      "as": ["kind"]
+      "calculate": "datum.stage",
+      "as": "kind"
     },
     {
-      "calculate": "datum.kind === 'Starting level' ? '2017-2018' : datum.kind === 'Increase' ? 'Increase' : '2023-2024'",
+      "calculate": "datum.financial_year === '2017-18' ? '2017-2018' : datum.financial_year === '2023-24' ? '2023-2024' : 'Increase'",
       "as": "step"
     },
     {
-      "calculate": "datum.kind === 'Increase' ? datum.start_value : 0",
+      "calculate": "datum.metric === 'production_million_tonnes' ? datum.production_bottom : datum.value_bottom",
       "as": "bottom"
     },
     {
-      "calculate": "datum.kind === 'Increase' ? datum.end_value : datum.value",
+      "calculate": "datum.metric === 'production_million_tonnes' ? datum.production_top : datum.value_top",
       "as": "top"
     },
     {
-      "calculate": "datum.kind === 'Increase' ? datum.end_value - datum.start_value : datum.value",
-      "as": "display_value"
-    },
-    {
-      "calculate": "(datum.kind === 'Increase' ? '+' : '') + format(datum.display_value, '.2f')",
+      "calculate": "format(datum.value, '.2f')",
       "as": "short_label"
     },
     {
-      "calculate": "format(datum.display_value, '.2f')",
+      "calculate": "format(datum.value, '.2f')",
       "as": "label"
     },
     {
-      "calculate": "'+' + format((datum.end_value - datum.start_value) / datum.start_value * 100, '.1f') + '%'",
+      "calculate": "datum.metric === 'production_million_tonnes' ? datum.production_percent : datum.value_percent",
       "as": "percent_label"
     }
   ],
