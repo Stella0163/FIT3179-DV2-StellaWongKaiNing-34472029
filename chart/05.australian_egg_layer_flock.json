@@ -16,7 +16,7 @@
     "offset": 15
   },
 
-  "width": 700,
+  "width": 550,
   "height": 400,
 
   "projection": {
@@ -215,7 +215,7 @@
         "type": "text",
         "dx": 15,
         "dy": -12,
-        "align": "left",
+        "align": "center",
         "font": "Arial",
         "fontSize": 13,
         "fontWeight": "bold",
