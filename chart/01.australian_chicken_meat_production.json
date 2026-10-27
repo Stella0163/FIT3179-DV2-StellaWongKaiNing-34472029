@@ -2,7 +2,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "background": "white",
-  "padding": 10,
+  "padding": {
+    "top": 10,
+    "bottom": 10,
+    "left": 10,
+    "right": 110
+  },
   "title": {
     "text": "Quarterly Performance of Australia's Chicken Industry",
     "subtitle": "Percentage change relative to June 2024",
@@ -16,7 +21,7 @@
     "offset": 12
   },
   "data": {
-    "url": "data/01.chicken_quarterly_2024-2026.json",
+    "url": "../data/01.chicken_quarterly_2024-2026.json",
     "format": {
       "type": "json",
       "property": "values"
@@ -75,6 +80,29 @@
     {
       "calculate": "min(max(-datum.change - 6, 0), 6)",
       "as": "negative_band2"
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "peak_rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "change",
+          "order": "descending"
+        }
+      ],
+      "groupby": ["measure"]
+    },
+    {
+      "calculate": "datum.change > 6 ? datum.positive_band2 : datum.positive_band1",
+      "as": "peak_position"
+    },
+    {
+      "calculate": "'Peak: ' + format(datum.change, '+.1f') + '%'",
+      "as": "peak_label"
     }
   ],
   "facet": {
@@ -98,7 +126,7 @@
     }
   },
   "spec": {
-    "width": 600,
+    "width": 500,
     "height": 90,
     "encoding": {
       "x": {
@@ -154,7 +182,8 @@
           "type": "area",
           "interpolate": "linear",
           "clip": true,
-          "color": "#F6D58A"
+          "color": "#93C5FD",
+          "opacity": 1
         },
         "encoding": {
           "y": {
@@ -176,7 +205,8 @@
           "type": "area",
           "interpolate": "linear",
           "clip": true,
-          "color": "#F4B89C"
+          "color": "#D8B4FE",
+          "opacity": 1
         },
         "encoding": {
           "y": {
@@ -198,7 +228,8 @@
           "type": "area",
           "interpolate": "linear",
           "clip": true,
-          "color": "#F2B431"
+          "color": "#2563EB",
+          "opacity": 1
         },
         "encoding": {
           "y": {
@@ -220,7 +251,8 @@
           "type": "area",
           "interpolate": "linear",
           "clip": true,
-          "color": "#B5382B"
+          "color": "#7E22CE",
+          "opacity": 1
         },
         "encoding": {
           "y": {
@@ -236,8 +268,143 @@
             "datum": 0
           }
         }
+      },
+      {
+        "transform": [
+          {
+            "filter": "datum.peak_rank === 1"
+          }
+        ],
+        "mark": {
+          "type": "point",
+          "filled": true,
+          "size": 110,
+          "color": "#374151",
+          "stroke": "white",
+          "strokeWidth": 2
+        },
+        "encoding": {
+          "y": {
+            "field": "peak_position",
+            "type": "quantitative",
+            "scale": {
+              "domain": [0, 6]
+            },
+            "axis": null
+          }
+        }
+      },
+      {
+        "transform": [
+          {
+            "filter": "datum.peak_rank === 1"
+          }
+        ],
+        "mark": {
+          "type": "text",
+          "align": "left",
+          "baseline": "middle",
+          "dx": 12,
+          "dy": 0,
+          "font": "Arial",
+          "fontSize": 11,
+          "fontWeight": "bold",
+          "color": "#374151"
+        },
+        "encoding": {
+          "y": {
+            "field": "peak_position",
+            "type": "quantitative",
+            "scale": {
+              "domain": [0, 6]
+            },
+            "axis": null
+          },
+          "text": {
+            "field": "peak_label",
+            "type": "nominal"
+          }
+        }
+      },
+      {
+        "transform": [
+          {
+            "filter": "datum.quarter === 'Jun-24'"
+          },
+          {
+            "calculate": "'Increase 0–6%'",
+            "as": "legend_1"
+          },
+          {
+            "calculate": "'Increase 6–12%'",
+            "as": "legend_2"
+          },
+          {
+            "calculate": "'Decrease 0–6%'",
+            "as": "legend_3"
+          },
+          {
+            "calculate": "'Decrease 6–12%'",
+            "as": "legend_4"
+          },
+          {
+            "fold": [
+              "legend_1",
+              "legend_2",
+              "legend_3",
+              "legend_4"
+            ],
+            "as": ["legend_key", "legend_label"]
+          }
+        ],
+        "mark": {
+          "type": "point",
+          "filled": true,
+          "opacity": 0
+        },
+        "encoding": {
+          "y": {
+            "datum": 0
+          },
+          "color": {
+            "field": "legend_label",
+            "type": "nominal",
+            "scale": {
+              "domain": [
+                "Increase 0–6%",
+                "Increase 6–12%",
+                "Decrease 0–6%",
+                "Decrease 6–12%"
+              ],
+              "range": [
+                "#93C5FD",
+                "#2563EB",
+                "#D8B4FE",
+                "#7E22CE"
+              ]
+            },
+            "legend": {
+              "title": "Percentage Change",
+              "orient": "bottom",
+              "direction": "horizontal",
+              "columns": 2,
+              "labelFont": "Arial",
+              "labelFontSize": 11,
+              "titleFont": "Arial",
+              "titleFontSize": 12,
+              "symbolType": "square",
+              "symbolStrokeWidth": 0,
+              "symbolSize": 180
+            }
+          }
+        }
       }
     ]
+  },
+  "resolve": {
+    "legend": {
+      "color": "shared"
+    }
   },
   "config": {
     "view": {
@@ -249,6 +416,14 @@
     "axis": {
       "labelFont": "Arial",
       "titleFont": "Arial"
+    },
+    "legend": {
+      "orient": "bottom",
+      "labelFont": "Arial",
+      "labelFontSize": 11,
+      "titleFont": "Arial",
+      "titleFontSize": 12,
+      "padding": 10
     }
   }
 }

@@ -1,22 +1,26 @@
+
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-
+  "background": "white",
+  "padding": 10,
   "title": {
     "text": "Growth of Australia's Chicken Meat Industry",
-    "subtitle": "How the 2017 - 2018 level built up to the 2023 - 2024 level",
-    "fontSize": 24,
-    "subtitleFontSize": 15,
+    "subtitle": "Change from 2017 to 2018 to 2023 to 2024",
+    "font": "Arial",
+    "fontSize": 21,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 12,
+    "subtitleColor": "#4b5563",
     "anchor": "start",
-    "offset": 16
+    "offset": 12
   },
-
   "data": {
-    "url": "data/09.agrifutures_chicken_meat_national_value_volume.json",
-        "format": {
-        "type": "json"
+    "url": "../data/09.agrifutures_chicken_meat_national_value_volume.json",
+    "format": {
+      "type": "json"
     }
   },
-
   "transform": [
     {
       "fold": [
@@ -34,7 +38,7 @@
       "as": "kind"
     },
     {
-      "calculate": "datum.financial_year === '2017-18' ? '2017-2018' : datum.financial_year === '2023-24' ? '2023-2024' : 'Increase'",
+      "calculate": "datum.financial_year === '2017 to 2018' ? '2017 to 2018' : datum.financial_year === '2023-24' ? '2023–24' : 'Increase'",
       "as": "step"
     },
     {
@@ -46,7 +50,7 @@
       "as": "top"
     },
     {
-      "calculate": "format(datum.value, '.2f')",
+      "calculate": "(datum.kind === 'Increase' ? '+' : '') + format(datum.value, '.2f')",
       "as": "short_label"
     },
     {
@@ -58,39 +62,35 @@
       "as": "percent_label"
     }
   ],
-
   "hconcat": [
     {
       "title": {
         "text": "Production volume",
-        "fontSize": 18,
+        "font": "Arial",
+        "fontSize": 15,
         "anchor": "start",
-        "offset": 12
+        "offset": 10
       },
-
-      "width": 300,
-      "height": 400,
-
+      "width": 260,
+      "height": 300,
       "transform": [
         {
           "filter": "datum.measure === 'Production Volume'"
         }
       ],
-
       "encoding": {
         "x": {
           "field": "step",
           "type": "ordinal",
-          "sort": ["2017-2018", "Increase", "2023-2024"],
+          "sort": ["2017–18", "Increase", "2023–24"],
           "title": null,
           "axis": {
             "labelAngle": 0,
-            "labelFontSize": 14,
-            "labelPadding": 10
+            "labelFontSize": 11,
+            "labelPadding": 8
           }
         }
       },
-
       "layer": [
         {
           "params": [
@@ -105,38 +105,33 @@
               }
             }
           ],
-
           "mark": {
             "type": "bar",
-            "size": 72,
+            "size": 55,
             "cursor": "pointer",
-            "cornerRadiusTopLeft": 5,
-            "cornerRadiusTopRight": 5
+            "cornerRadiusTopLeft": 4,
+            "cornerRadiusTopRight": 4
           },
-
           "encoding": {
             "y": {
               "field": "bottom",
               "type": "quantitative",
-              "title": "Million tonnes of chicken meat",
+              "title": "Million tonnes",
               "scale": {
                 "domain": [0, 1.9]
               },
               "axis": {
-                "titleFontSize": 15,
-                "labelFontSize": 13,
+                "titleFontSize": 12,
+                "labelFontSize": 11,
                 "gridColor": "#e5e7eb"
               }
             },
-
             "y2": {
               "field": "top"
             },
-
             "color": {
               "field": "kind",
               "type": "nominal",
-              "title": "Stage",
               "scale": {
                 "domain": [
                   "Starting level",
@@ -144,23 +139,13 @@
                   "Ending level"
                 ],
                 "range": [
-                  "#9aa5a0",
-                  "#e9a72f",
-                  "#1f2a2e"
+                  "#9AA5A0",
+                  "#F2B431",
+                  "#1F2A2E"
                 ]
               },
-
-              "legend": {
-                "orient": "right",
-                "direction": "vertical",
-                "titleFontSize": 15,
-                "labelFontSize": 14,
-                "symbolSize": 180,
-                "padding": 12,
-                "offset": 20
-              }
+              "legend": null
             },
-
             "opacity": {
               "condition": {
                 "param": "stepSelect",
@@ -169,7 +154,6 @@
               },
               "value": 0.25
             },
-
             "stroke": {
               "condition": {
                 "param": "stepSelect",
@@ -178,16 +162,14 @@
               },
               "value": null
             },
-
             "strokeWidth": {
               "condition": {
                 "param": "stepSelect",
-                "value": 2.5,
+                "value": 2,
                 "empty": false
               },
               "value": 0
             },
-
             "tooltip": [
               {
                 "field": "step",
@@ -202,27 +184,23 @@
             ]
           }
         },
-
         {
           "mark": {
             "type": "text",
             "baseline": "bottom",
             "dy": -8,
-            "fontSize": 14,
+            "fontSize": 12,
             "fontWeight": "bold",
-            "color": "#1f2a2e"
+            "color": "#1F2A2E"
           },
-
           "encoding": {
             "y": {
               "field": "top",
               "type": "quantitative"
             },
-
             "text": {
               "field": "short_label"
             },
-
             "opacity": {
               "condition": {
                 "param": "stepSelect",
@@ -233,33 +211,28 @@
             }
           }
         },
-
         {
           "transform": [
             {
               "filter": "datum.kind === 'Increase'"
             }
           ],
-
           "mark": {
             "type": "text",
             "baseline": "bottom",
-            "dy": -28,
-            "fontSize": 13,
+            "dy": -26,
+            "fontSize": 12,
             "fontWeight": "bold",
-            "color": "#8a5a00"
+            "color": "#8A5A00"
           },
-
           "encoding": {
             "y": {
               "field": "top",
               "type": "quantitative"
             },
-
             "text": {
               "field": "percent_label"
             },
-
             "opacity": {
               "condition": {
                 "param": "stepSelect",
@@ -272,66 +245,60 @@
         }
       ]
     },
-
     {
       "title": {
         "text": "Gross production value",
-        "fontSize": 18,
+        "font": "Arial",
+        "fontSize": 15,
         "anchor": "start",
-        "offset": 12
+        "offset": 10
       },
-
-      "width": 360,
-      "height": 400,
-
+      "width": 260,
+      "height": 300,
       "transform": [
         {
           "filter": "datum.measure === 'Gross Production Value'"
         }
       ],
-
       "encoding": {
         "x": {
           "field": "step",
           "type": "ordinal",
-          "sort": ["2017-2018", "Increase", "2023-2024"],
+          "sort": ["2017–18", "Increase", "2023–24"],
           "title": null,
           "axis": {
             "labelAngle": 0,
-            "labelFontSize": 14,
-            "labelPadding": 10
+            "labelFontSize": 11,
+            "labelPadding": 8
           }
         }
       },
-
       "layer": [
         {
           "mark": {
             "type": "bar",
-            "size": 72,
-            "cornerRadiusTopLeft": 5,
-            "cornerRadiusTopRight": 5
+            "size": 55,
+            "cursor": "pointer",
+            "cornerRadiusTopLeft": 4,
+            "cornerRadiusTopRight": 4
           },
-
           "encoding": {
             "y": {
               "field": "bottom",
               "type": "quantitative",
-              "title": "Billion dollars",
+              "title": "Billion AUD",
               "scale": {
                 "domain": [0, 5.2]
               },
               "axis": {
-                "titleFontSize": 15,
-                "labelFontSize": 13,
+                "titleFontSize": 12,
+                "labelFontSize": 11,
                 "gridColor": "#e5e7eb"
               }
             },
-
             "y2": {
               "field": "top"
             },
-
             "color": {
               "field": "kind",
               "type": "nominal",
@@ -342,14 +309,13 @@
                   "Ending level"
                 ],
                 "range": [
-                  "#9aa5a0",
-                  "#e9a72f",
-                  "#1f2a2e"
+                  "#9AA5A0",
+                  "#F2B431",
+                  "#1F2A2E"
                 ]
               },
               "legend": null
             },
-
             "opacity": {
               "condition": {
                 "param": "stepSelect",
@@ -358,7 +324,6 @@
               },
               "value": 0.25
             },
-
             "stroke": {
               "condition": {
                 "param": "stepSelect",
@@ -367,16 +332,14 @@
               },
               "value": null
             },
-
             "strokeWidth": {
               "condition": {
                 "param": "stepSelect",
-                "value": 2.5,
+                "value": 2,
                 "empty": false
               },
               "value": 0
             },
-
             "tooltip": [
               {
                 "field": "step",
@@ -391,27 +354,23 @@
             ]
           }
         },
-
         {
           "mark": {
             "type": "text",
             "baseline": "bottom",
             "dy": -8,
-            "fontSize": 14,
+            "fontSize": 12,
             "fontWeight": "bold",
-            "color": "#1f2a2e"
+            "color": "#1F2A2E"
           },
-
           "encoding": {
             "y": {
               "field": "top",
               "type": "quantitative"
             },
-
             "text": {
               "field": "short_label"
             },
-
             "opacity": {
               "condition": {
                 "param": "stepSelect",
@@ -422,33 +381,28 @@
             }
           }
         },
-
         {
           "transform": [
             {
               "filter": "datum.kind === 'Increase'"
             }
           ],
-
           "mark": {
             "type": "text",
             "baseline": "bottom",
-            "dy": -28,
-            "fontSize": 13,
+            "dy": -26,
+            "fontSize": 12,
             "fontWeight": "bold",
-            "color": "#8a5a00"
+            "color": "#8A5A00"
           },
-
           "encoding": {
             "y": {
               "field": "top",
               "type": "quantitative"
             },
-
             "text": {
               "field": "percent_label"
             },
-
             "opacity": {
               "condition": {
                 "param": "stepSelect",
@@ -462,26 +416,28 @@
       ]
     }
   ],
-
   "resolve": {
     "scale": {
       "y": "independent",
       "color": "shared"
     }
   },
-
   "config": {
     "view": {
       "stroke": null
     },
-
     "concat": {
-      "spacing": 70
+      "spacing": 25
     },
-
     "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial",
       "domainColor": "#9ca3af",
       "tickColor": "#9ca3af"
+    },
+    "legend": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
     }
   }
 }
