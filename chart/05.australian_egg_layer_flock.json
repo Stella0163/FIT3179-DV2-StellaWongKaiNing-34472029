@@ -16,8 +16,8 @@
     "offset": 15
   },
 
-  "width": 780,
-  "height": 500,
+  "width": 550,
+  "height": 400,
 
   "projection": {
     "type": "mercator",
@@ -26,7 +26,7 @@
   },
 
   "data": {
-    "url": "../data/05.fsanz_australia_egg_layer_flock_2025.json",
+    "url": "data/05.fsanz_australia_egg_layer_flock_2025.json",
     "format": {
       "type": "json",
       "property": "state_data"
