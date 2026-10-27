@@ -1,11 +1,17 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 
+  "background": "white",
+
   "title": {
     "text": "Distribution of Australia's National Laying Flock, 2025",
     "subtitle": "Graduated symbols represent each state's share of Australia's egg-laying hens",
+    "font": "Arial",
     "fontSize": 20,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
     "subtitleFontSize": 12,
+    "subtitleColor": "#4b5563",
     "anchor": "start",
     "offset": 15
   },
@@ -20,7 +26,7 @@
   },
 
   "data": {
-    "url": "data/05.fsanz_australia_egg_layer_flock_2025.json",
+    "url": "../data/05.fsanz_australia_egg_layer_flock_2025.json",
     "format": {
       "type": "json",
       "property": "state_data"
@@ -49,13 +55,48 @@
     },
 
     {
-      "calculate": "datum.share_percent <= 10 ? '#A9D6E5' : datum.share_percent <= 25 ? '#61A5C2' : datum.share_percent <= 35 ? '#2C7DA0' : '#014F86'",
+      "calculate": "datum.share_percent <= 10 ? '#D8C4E5' : datum.share_percent <= 25 ? '#BE9ED3' : datum.share_percent <= 35 ? '#9B74BB' : '#79539E'",
       "as": "symbol_color"
     },
 
     {
       "calculate": "datum.state_code === 'NSW_ACT' ? 'NSW + ACT' : datum.state_code",
       "as": "map_label"
+    },
+
+    {
+      "joinaggregate": [
+        {
+          "op": "max",
+          "field": "share_percent",
+          "as": "highest_share"
+        }
+      ]
+    },
+
+    {
+      "calculate": "datum.share_percent === datum.highest_share",
+      "as": "is_highest"
+    },
+
+    {
+      "calculate": "'Largest share: ' + datum.map_label",
+      "as": "annotation_title"
+    },
+
+    {
+      "calculate": "format(datum.share_percent, '.1f') + '% of national laying flock'",
+      "as": "annotation_value"
+    },
+
+    {
+      "calculate": "122",
+      "as": "annotation_longitude"
+    },
+
+    {
+      "calculate": "-38",
+      "as": "annotation_latitude"
     }
   ],
 
@@ -100,6 +141,7 @@
         "size": {
           "field": "share_range",
           "type": "ordinal",
+
           "sort": [
             "0–10%",
             ">10–25%",
@@ -126,12 +168,13 @@
           "legend": {
             "title": "Laying Flock Share (%)",
             "orient": "right",
-            "titleFontSize": 13,
-            "labelFontSize": 12,
+            "direction": "vertical",
             "symbolType": "circle",
-            "symbolFillColor": "#2878B5",
+            "symbolFillColor": "#A180BD",
             "symbolStrokeColor": "#FFFFFF",
             "symbolStrokeWidth": 1.5,
+            "titleFontSize": 13,
+            "labelFontSize": 12,
             "offset": 20,
             "padding": 15
           }
@@ -173,9 +216,10 @@
         "dx": 15,
         "dy": -12,
         "align": "left",
+        "font": "Arial",
         "fontSize": 13,
         "fontWeight": "bold",
-        "color": "#17324D"
+        "color": "#79539E"
       },
 
       "encoding": {
@@ -194,6 +238,138 @@
           "type": "nominal"
         }
       }
+    },
+
+    {
+      "transform": [
+        {
+          "filter": "datum.is_highest"
+        }
+      ],
+
+      "mark": {
+        "type": "rule",
+        "color": "#79539E",
+        "strokeWidth": 1.6
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+
+        "longitude2": {
+          "field": "annotation_longitude"
+        },
+
+        "latitude2": {
+          "field": "annotation_latitude"
+        }
+      }
+    },
+
+    {
+      "transform": [
+        {
+          "filter": "datum.is_highest"
+        }
+      ],
+
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "color": "#79539E",
+        "size": 55
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "annotation_longitude",
+          "type": "quantitative"
+        },
+
+        "latitude": {
+          "field": "annotation_latitude",
+          "type": "quantitative"
+        }
+      }
+    },
+
+    {
+      "transform": [
+        {
+          "filter": "datum.is_highest"
+        }
+      ],
+
+      "mark": {
+        "type": "text",
+        "font": "Arial",
+        "fontSize": 13,
+        "fontWeight": "bold",
+        "color": "#79539E",
+        "align": "center",
+        "dx": 0,
+        "dy": 27
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "annotation_longitude",
+          "type": "quantitative"
+        },
+
+        "latitude": {
+          "field": "annotation_latitude",
+          "type": "quantitative"
+        },
+
+        "text": {
+          "field": "annotation_title",
+          "type": "nominal"
+        }
+      }
+    },
+
+    {
+      "transform": [
+        {
+          "filter": "datum.is_highest"
+        }
+      ],
+
+      "mark": {
+        "type": "text",
+        "font": "Arial",
+        "fontSize": 12,
+        "color": "#6B7280",
+        "align": "center",
+        "dx": 0,
+        "dy": 46
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "annotation_longitude",
+          "type": "quantitative"
+        },
+
+        "latitude": {
+          "field": "annotation_latitude",
+          "type": "quantitative"
+        },
+
+        "text": {
+          "field": "annotation_value",
+          "type": "nominal"
+        }
+      }
     }
   ],
 
@@ -204,9 +380,16 @@
       "stroke": null
     },
 
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    },
+
     "legend": {
-      "padding": 15,
-      "offset": 20,
+      "padding": 5,
+      "offset": 2,
+      "labelFont": "Arial",
+      "titleFont": "Arial",
       "labelFontSize": 12,
       "titleFontSize": 13
     }
