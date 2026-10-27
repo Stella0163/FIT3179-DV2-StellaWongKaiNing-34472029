@@ -51,8 +51,15 @@
     }
   ],
 
-  "width": 720,
-  "height": 420,
+  "width": 500,
+  "height": 380,
+
+  "padding": {
+    "top": 20,
+    "bottom": 15,
+    "left": 15,
+    "right": 20
+  },
 
   "layer": [
     {
@@ -71,7 +78,7 @@
     {
       "mark": {
         "type": "bar",
-        "size": 75,
+        "size": 55,
         "cornerRadiusEnd": 5
       },
 
@@ -124,7 +131,8 @@
           },
           "legend": {
             "title": "Consumption Level",
-            "orient": "right",
+            "orient": "bottom",
+            "direction": "horizontal",
             "labelFontSize": 12,
             "titleFontSize": 13
           }
