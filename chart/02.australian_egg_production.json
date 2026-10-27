@@ -16,7 +16,7 @@
     "offset": 12
   },
   "data": {
-    "url": "../data/02.australian_egg_production.json",
+    "url": "data/02.australian_egg_production.json",
     "format": {
       "type": "json",
       "property": "state_data"

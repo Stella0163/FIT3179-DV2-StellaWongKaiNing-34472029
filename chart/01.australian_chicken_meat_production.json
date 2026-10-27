@@ -126,8 +126,8 @@
     }
   },
   "spec": {
-    "width": 600,
-    "height": 90,
+    "width": 700,
+    "height": 250,
     "encoding": {
       "x": {
         "field": "quarter",
