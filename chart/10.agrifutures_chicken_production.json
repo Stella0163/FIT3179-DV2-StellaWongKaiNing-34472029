@@ -3,15 +3,15 @@
 
   "title": {
     "text": "Australian Chicken Meat Production by State",
-    "subtitle": "Share of reported production by region, 2023 to 2024",
+    "subtitle": "2023 to 2024 production volume. Rectangle area represents each region's contribution.",
     "font": "Arial",
-    "fontSize": 21,
+    "fontSize": 17,
     "fontWeight": "bold",
     "subtitleFont": "Arial",
-    "subtitleFontSize": 12,
+    "subtitleFontSize": 10,
     "subtitleColor": "#4b5563",
     "anchor": "start",
-    "offset": 12
+    "offset": 10
   },
 
   "data": {
@@ -83,8 +83,8 @@
     }
   ],
 
-  "width": 600,
-  "height": 470,
+  "width": 520,
+  "height": 300,  
 
   "layer": [
     {
