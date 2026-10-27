@@ -16,7 +16,7 @@
     "offset": 12
   },
   "data": {
-    "url": "data/09.agrifutures_chicken_meat_national_value_volume.json",
+    "url": "../data/09.agrifutures_chicken_meat_national_value_volume.json",
     "format": {
       "type": "json"
     }
@@ -38,7 +38,7 @@
       "as": "kind"
     },
     {
-      "calculate": "datum.financial_year === '2017 to 2018' ? '2017 to 2018' : datum.financial_year === '2023-24' ? '2023–24' : 'Increase'",
+      "calculate": "datum.kind === 'Starting level' ? '2017–18' : datum.kind === 'Increase' ? 'Increase' : '2023–24'",
       "as": "step"
     },
     {
@@ -197,9 +197,6 @@
             "y": {
               "field": "top",
               "type": "quantitative"
-            },
-            "text": {
-              "field": "short_label"
             },
             "opacity": {
               "condition": {
@@ -367,9 +364,6 @@
             "y": {
               "field": "top",
               "type": "quantitative"
-            },
-            "text": {
-              "field": "short_label"
             },
             "opacity": {
               "condition": {

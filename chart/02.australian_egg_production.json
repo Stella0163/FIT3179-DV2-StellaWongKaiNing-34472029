@@ -1,41 +1,43 @@
+
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-
+  "background": "white",
+  "padding": 10,
   "title": {
-    "text": "Australia Egg Production by State, 2026",
-    "subtitle": "Share of national egg production across six Australian states",
-    "fontSize": 24,
-    "subtitleFontSize": 14,
+    "text": "Australian Egg Production by State, 2026",
+    "subtitle": "Share of national egg production across six states",
+    "font": "Arial",
+    "fontSize": 21,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 12,
+    "subtitleColor": "#4b5563",
     "anchor": "start",
-    "offset": 16
+    "offset": 12
   },
-
   "data": {
-    "url": "data/02.australian_egg_production.json",
+    "url": "../data/02.australian_egg_production.json",
     "format": {
       "type": "json",
       "property": "state_data"
     }
   },
-
   "transform": [
     {
       "calculate": "datum.share_of_national_production_percent",
       "as": "share"
     }
   ],
-
   "vconcat": [
     {
-      "width": 650,
-      "height": 460,
-
+      "width": 570,
+      "height": 340,
       "title": {
         "text": "Distribution of National Egg Production",
-        "fontSize": 18,
+        "font": "Arial",
+        "fontSize": 15,
         "anchor": "middle"
       },
-
       "params": [
         {
           "name": "stateSelect",
@@ -48,38 +50,41 @@
           }
         }
       ],
-
       "mark": {
         "type": "arc",
-        "innerRadius": 55,
+        "innerRadius": 45,
         "stroke": "white",
         "strokeWidth": 2,
-        "cornerRadius": 5,
+        "cornerRadius": 4,
         "cursor": "pointer"
       },
-
       "encoding": {
         "theta": {
           "field": "state_code",
           "type": "nominal",
-          "sort": ["QLD", "NSW", "VIC", "WA", "SA", "TAS"]
+          "sort": [
+            "QLD",
+            "NSW",
+            "VIC",
+            "WA",
+            "SA",
+            "TAS"
+          ]
         },
-
         "radius": {
           "field": "share",
           "type": "quantitative",
           "scale": {
             "type": "sqrt",
             "zero": true,
-            "rangeMin": 70,
-            "rangeMax": 190
+            "rangeMin": 60,
+            "rangeMax": 145
           }
         },
-
         "color": {
           "field": "state",
           "type": "nominal",
-          "title": "Australian State",
+          "title": "State",
           "scale": {
             "domain": [
               "Queensland",
@@ -90,22 +95,23 @@
               "Tasmania"
             ],
             "range": [
-              "#1F4E79",
-              "#356FA5",
-              "#5794C5",
-              "#81B4D9",
-              "#A9CFE8",
-              "#D1E5F3"
+              "#8A6518",
+              "#5F3B74",
+              "#A74E2C",
+              "#329DA8",
+              "#D46B9A",
+              "#657C9E"
             ]
           },
           "legend": {
             "orient": "right",
-            "titleFontSize": 14,
-            "labelFontSize": 13,
-            "symbolSize": 180
+            "titleFontSize": 12,
+            "labelFontSize": 11,
+            "symbolSize": 100,
+            "padding": 5,
+            "offset": 8
           }
         },
-
         "opacity": {
           "condition": {
             "param": "stateSelect",
@@ -114,7 +120,6 @@
           },
           "value": 0.2
         },
-
         "tooltip": [
           {
             "field": "state",
@@ -125,56 +130,57 @@
             "field": "share",
             "type": "quantitative",
             "title": "Production Share (%)",
-            "format": ".0f"
+            "format": ".1f"
           }
         ]
       }
     },
-
     {
-      "width": 700,
-      "height": 270,
-
+      "width": 570,
+      "height": 220,
       "title": {
         "text": "State Comparison",
-        "fontSize": 18,
+        "font": "Arial",
+        "fontSize": 15,
         "anchor": "middle"
       },
-
       "mark": {
         "type": "bar",
-        "cornerRadiusTopLeft": 6,
-        "cornerRadiusTopRight": 6,
+        "cornerRadiusTopLeft": 4,
+        "cornerRadiusTopRight": 4,
         "cursor": "pointer"
       },
-
       "encoding": {
         "x": {
           "field": "state_code",
           "type": "nominal",
-          "title": "Australian State",
-          "sort": ["QLD", "NSW", "VIC", "WA", "SA", "TAS"],
+          "title": null,
+          "sort": [
+            "QLD",
+            "NSW",
+            "VIC",
+            "WA",
+            "SA",
+            "TAS"
+          ],
           "axis": {
             "labelAngle": 0,
-            "labelFontSize": 13,
-            "titleFontSize": 14
+            "labelFontSize": 11
           }
         },
-
         "y": {
           "field": "share",
           "type": "quantitative",
-          "title": "Share of National Egg Production (%)",
+          "title": "National Production Share (%)",
           "scale": {
             "domain": [0, 40]
           },
           "axis": {
-            "labelFontSize": 13,
-            "titleFontSize": 14,
+            "labelFontSize": 11,
+            "titleFontSize": 12,
             "gridColor": "#E5E7EB"
           }
         },
-
         "color": {
           "field": "state",
           "type": "nominal",
@@ -188,17 +194,16 @@
               "Tasmania"
             ],
             "range": [
-              "#1F4E79",
-              "#356FA5",
-              "#5794C5",
-              "#81B4D9",
-              "#A9CFE8",
-              "#D1E5F3"
+              "#8A6518",
+              "#5F3B74",
+              "#A74E2C",
+              "#C0793E",
+              "#A66A96",
+              "#66715A"
             ]
           },
           "legend": null
         },
-
         "opacity": {
           "condition": {
             "param": "stateSelect",
@@ -207,7 +212,6 @@
           },
           "value": 0.2
         },
-
         "tooltip": [
           {
             "field": "state",
@@ -218,26 +222,24 @@
             "field": "share",
             "type": "quantitative",
             "title": "Production Share (%)",
-            "format": ".0f"
+            "format": ".1f"
           }
         ]
       }
     }
   ],
-
-  "spacing": 36,
-
+  "spacing": 22,
   "config": {
     "view": {
       "stroke": null
     },
     "axis": {
-      "labelFontSize": 13,
-      "titleFontSize": 14
+      "labelFont": "Arial",
+      "titleFont": "Arial"
     },
     "legend": {
-      "labelFontSize": 13,
-      "titleFontSize": 14
+      "labelFont": "Arial",
+      "titleFont": "Arial"
     }
   }
 }
