@@ -1,12 +1,19 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 
+  "background": "white",
+
   "title": {
     "text": "Australian Egg Consumption per Capita",
     "subtitle": "Difference from the four-year average of 262.5 eggs per person (2021–2025)",
-    "fontSize": 23,
-    "subtitleFontSize": 14,
-    "anchor": "start"
+    "font": "Arial",
+    "fontSize": 21,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 12,
+    "subtitleColor": "#4b5563",
+    "anchor": "start",
+    "offset": 12
   },
 
   "data": {
@@ -37,6 +44,10 @@
     {
       "calculate": "(datum.difference > 0 ? '+' : '') + format(datum.difference, '.1f')",
       "as": "difference_label"
+    },
+    {
+      "calculate": "abs(datum.difference)",
+      "as": "absolute_difference"
     }
   ],
 
@@ -75,9 +86,8 @@
             "2024-25"
           ],
           "axis": {
-            "title": "Financial Year",
+            "title": null,
             "labelFontSize": 13,
-            "titleFontSize": 15,
             "labelAngle": 0,
             "labelPadding": 12
           }
@@ -146,19 +156,125 @@
           }
         ]
       }
+    },
+
+    {
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "deviation_rank"
+            }
+          ],
+          "sort": [
+            {
+              "field": "absolute_difference",
+              "order": "descending"
+            }
+          ]
+        },
+        {
+          "filter": "datum.deviation_rank === 1 && datum.difference >= 0"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "font": "Arial",
+        "fontSize": 14,
+        "fontWeight": "bold",
+        "color": "#34495E",
+        "baseline": "bottom",
+        "dy": -10
+      },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2021-22",
+            "2022-23",
+            "2023-24",
+            "2024-25"
+          ]
+        },
+        "y": {
+          "field": "difference",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "difference_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "deviation_rank"
+            }
+          ],
+          "sort": [
+            {
+              "field": "absolute_difference",
+              "order": "descending"
+            }
+          ]
+        },
+        {
+          "filter": "datum.deviation_rank === 1 && datum.difference < 0"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "font": "Arial",
+        "fontSize": 14,
+        "fontWeight": "bold",
+        "color": "#34495E",
+        "baseline": "top",
+        "dy": 10
+      },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": [
+            "2021-22",
+            "2022-23",
+            "2023-24",
+            "2024-25"
+          ]
+        },
+        "y": {
+          "field": "difference",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "difference_label",
+          "type": "nominal"
+        }
+      }
     }
   ],
 
   "config": {
-    "background": "white",
-
     "view": {
       "stroke": null
     },
 
     "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial",
       "domain": false,
       "tickColor": "#D5DDE5"
+    },
+
+    "legend": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
     }
   }
 }
